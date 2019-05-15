@@ -1,5 +1,6 @@
 const Sequelize = require('../node_modules/sequelize')
 const sequelize = require('../db')
+const Product = require('../products/model')
 
 const Orderline = sequelize.define('orderlines', {
     quantity: {
@@ -23,6 +24,7 @@ const Orderline = sequelize.define('orderlines', {
         tableName: 'orderlines'
     })
 
-Orderline.HasOne(Product)
+// Orderline.hasOne(Product)
+// Product.hasMany(Orderline)
 
 module.exports = Orderline

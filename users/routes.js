@@ -5,20 +5,9 @@ const bcrypt = require('bcrypt')
 const router = new Router()
 
 router.post('/register', (req, res, next) => {
-    const user = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 10),
-        street_name: req.body.street_name,
-        house_number: req.body.house_number,
-        zipcode: req.body.zipcode,
-        city: req.body.city,
-        phonenumber: req.body.phonenumber,
-        user_type: req.body.user_type
-    }
+
     User
-        .create(user)
+        .create(req.body)
         .then(user => {
             if (!user) {
                 return res.status(404).send({

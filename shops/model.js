@@ -1,25 +1,17 @@
 const Sequelize = require('../node_modules/sequelize')
 const sequelize = require('../db')
+const User = require('../users/model')
+const Product = require('../products/model')
 
-const User = sequelize.define('users', {
-    first_name: {
+const Shop = sequelize.define('shops', {
+    shop_name: {
         type: Sequelize.STRING,
-        field: 'first_name',
-        allowNull: false
-    },
-    last_name: {
-        type: Sequelize.STRING,
-        field: 'last_name',
+        field: 'shop_name',
         allowNull: false
     },
     email: {
         type: Sequelize.STRING,
         field: 'email',
-        allowNull: false
-    },
-    password: {
-        type: Sequelize.STRING,
-        field: 'password',
         allowNull: false
     },
     address: {
@@ -32,15 +24,19 @@ const User = sequelize.define('users', {
         field: 'phonenumber',
         allowNull: false
     },
-    user_type: {
+    business_hours: {
         type: Sequelize.STRING,
-        field: 'user_type',
+        field: 'business_hours',
         allowNull: false
     }
 },
     {
         timestamps: true,
-        tableName: 'users'
+        tableName: 'shops'
     })
+Shop.hasMany(Product)
+Product.belongsTo(Shop)
+Shop.hasMany(User)
+User.belongsTo(Shop)
 
-  module.exports = User
+module.exports = Shop

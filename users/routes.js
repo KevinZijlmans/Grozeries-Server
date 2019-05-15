@@ -33,7 +33,7 @@ router.get('/users/:id', (req, res, next) => {
         .then(user => {
             if (!user) {
                 return res.status(404).send({
-                    message: `customer does not exist`
+                    message: `user does not exist`
                 })
             }
             return res.send(user)

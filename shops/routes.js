@@ -36,51 +36,52 @@ router.get('/shops', (req, res, next) => {
                 error: err
             })
         })
+})
 
-    router.get('/shops/:id', (req, res, next) => {
-        Shop
-            .findByPk(req.params.id)
-            .then(shop => {
-                if (!shop) {
-                    return res.status(404).send({
-                        message: `shop does not exist`
-                    })
-                }
-                return res.send(shop)
-            })
-            .catch(error => next(error))
-    })
+router.get('/shops/:id', (req, res, next) => {
+    Shop
+        .findByPk(req.params.id)
+        .then(shop => {
+            if (!shop) {
+                return res.status(404).send({
+                    message: `shop does not exist`
+                })
+            }
+            return res.send(shop)
+        })
+        .catch(error => next(error))
+})
 
-    router.put('/shops/:id', (req, res, next) => {
-        Shop
-            .findByPk(req.params.id)
-            .then(shop => {
-                if (!shop) {
-                    return res.status(404).send({
-                        message: `shop does not exist`
-                    })
-                }
-                return shop.update(req.body)
-                    .then(shop => res.send(shop))
-            })
-            .catch(error => next(error))
-    })
+router.put('/shops/:id', (req, res, next) => {
+    Shop
+        .findByPk(req.params.id)
+        .then(shop => {
+            if (!shop) {
+                return res.status(404).send({
+                    message: `shop does not exist`
+                })
+            }
+            return shop.update(req.body)
+                .then(shop => res.send(shop))
+        })
+        .catch(error => next(error))
+})
 
-    router.delete('/shops/:id', (req, res, next) => {
-        Shop
-            .findByPk(re.params.id)
-            .then(shop => {
-                if (!shop) {
-                    return res.status(404).send({
-                        message: 'shop does not exist'
-                    })
-                }
-                return shop.destroy()
-                    .then(() => res.send({
-                        message: 'shop was deleted'
-                    }))
-            })
-            .catch(error => next(error))
-    })
+router.delete('/shops/:id', (req, res, next) => {
+    Shop
+        .findByPk(re.params.id)
+        .then(shop => {
+            if (!shop) {
+                return res.status(404).send({
+                    message: 'shop does not exist'
+                })
+            }
+            return shop.destroy()
+                .then(() => res.send({
+                    message: 'shop was deleted'
+                }))
+        })
+        .catch(error => next(error))
+})
 
-    module.exports = router
+module.exports = router

@@ -14,7 +14,7 @@ const Shop = sequelize.define('shops', {
         field: 'email',
         allowNull: false
     },
-    street_name: {  
+    street_name: {
         type: Sequelize.STRING,
         field: 'street_name',
         allowNull: false
@@ -56,7 +56,6 @@ const Shop = sequelize.define('shops', {
     })
 Shop.hasMany(Product)
 Product.belongsTo(Shop)
-Shop.hasMany(User)
-User.belongsTo(Shop)
+Shop.belongsTo(User)
 
 module.exports = Shop

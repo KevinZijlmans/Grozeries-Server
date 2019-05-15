@@ -14,9 +14,24 @@ const Shop = sequelize.define('shops', {
         field: 'email',
         allowNull: false
     },
-    address: {
+    street_name: {  
         type: Sequelize.STRING,
-        field: 'address',
+        field: 'street_name',
+        allowNull: false
+    },
+    house_number: {
+        type: Sequelize.STRING,
+        field: 'house_number',
+        allowNull: false
+    },
+    zipcode: {
+        type: Sequelize.STRING,
+        field: 'zipcode',
+        allowNull: false
+    },
+    city: {
+        type: Sequelize.STRING,
+        field: 'city',
         allowNull: false
     },
     phonenumber: {
@@ -27,6 +42,11 @@ const Shop = sequelize.define('shops', {
     business_hours: {
         type: Sequelize.STRING,
         field: 'business_hours',
+        allowNull: false
+    },
+    shop_image: {
+        type: Sequelize.STRING,
+        field: 'shop_image',
         allowNull: false
     }
 },

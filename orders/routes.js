@@ -26,7 +26,7 @@ router.post('/orders', (req, res, next) => {
 
 router.get('/orders', (req, res, next) => {
     Order
-        .getAll()
+        .findAll()
         .then(orders => {
             res.send(orders)
         })

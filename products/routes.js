@@ -30,7 +30,7 @@ router.post('/shops/:id/products', (req, res, next) => {
 
 router.get('/shops/:id/products', (req, res, next) => {
     Product
-        .getAll()
+        .findAll()
         .then(products => {
             res.send(products)
         })
@@ -44,7 +44,7 @@ router.get('/shops/:id/products', (req, res, next) => {
 
 router.get('/products/categories', (req, res, next) => {
     Product
-        .getAll()
+        .findAll()
         .then(products => {
             res.send(products)
         })

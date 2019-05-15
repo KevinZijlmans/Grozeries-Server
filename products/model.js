@@ -1,46 +1,61 @@
 const Sequelize = require('../node_modules/sequelize')
 const sequelize = require('../db')
 
-const User = sequelize.define('users', {
-    first_name: {
+const Product = sequelize.define('products', {
+    product_name: {
         type: Sequelize.STRING,
-        field: 'first_name',
+        field: 'product_name',
         allowNull: false
     },
-    last_name: {
+    price: {
         type: Sequelize.STRING,
-        field: 'last_name',
+        field: 'price',
         allowNull: false
     },
-    email: {
+    description: {
         type: Sequelize.STRING,
-        field: 'email',
+        field: 'description',
         allowNull: false
     },
-    password: {
+    ingredients: {
         type: Sequelize.STRING,
-        field: 'password',
+        field: 'ingredients',
         allowNull: false
     },
-    address: {
+    allergens: {
         type: Sequelize.STRING,
-        field: 'address',
+        field: 'allergens',
         allowNull: false
     },
-    phonenumber: {
+    prices_by: {
         type: Sequelize.STRING,
-        field: 'phonenumber',
+        field: 'prices_by',
         allowNull: false
     },
-    user_type: {
+    quantity: {
+        type: Sequelize.INTEGER,
+        field: 'quantity',
+        allowNull: false
+    },
+    in_stock: {
+        type: Sequelize.BOOLEAN,
+        field: 'in_stock',
+        allowNull: false
+    },
+    active: {
         type: Sequelize.STRING,
-        field: 'user_type',
+        field: 'active',
+        allowNull: false
+    },
+    image: {
+        type: Sequelize.STRING,
+        field: 'image',
         allowNull: false
     }
 },
     {
         timestamps: true,
-        tableName: 'users'
+        tableName: 'products'
     })
 
-  module.exports = User
+  module.exports = Product

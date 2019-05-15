@@ -22,9 +22,24 @@ const User = sequelize.define('users', {
         field: 'password',
         allowNull: false
     },
-    address: {
+    street_name: {  
         type: Sequelize.STRING,
-        field: 'address',
+        field: 'street_name',
+        allowNull: false
+    },
+    house_number: {
+        type: Sequelize.STRING,
+        field: 'house_number',
+        allowNull: false
+    },
+    zipcode: {
+        type: Sequelize.STRING,
+        field: 'zipcode',
+        allowNull: false
+    },
+    city: {
+        type: Sequelize.STRING,
+        field: 'city',
         allowNull: false
     },
     phonenumber: {

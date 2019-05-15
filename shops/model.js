@@ -14,9 +14,24 @@ const Shop = sequelize.define('shops', {
         field: 'email',
         allowNull: false
     },
-    address: {
+    street_name: {
         type: Sequelize.STRING,
-        field: 'address',
+        field: 'street_name',
+        allowNull: false
+    },
+    house_number: {
+        type: Sequelize.STRING,
+        field: 'house_number',
+        allowNull: false
+    },
+    zipcode: {
+        type: Sequelize.STRING,
+        field: 'zipcode',
+        allowNull: false
+    },
+    city: {
+        type: Sequelize.STRING,
+        field: 'city',
         allowNull: false
     },
     phonenumber: {
@@ -28,6 +43,11 @@ const Shop = sequelize.define('shops', {
         type: Sequelize.STRING,
         field: 'business_hours',
         allowNull: false
+    },
+    shop_image: {
+        type: Sequelize.STRING,
+        field: 'shop_image',
+        allowNull: false
     }
 },
     {
@@ -36,7 +56,6 @@ const Shop = sequelize.define('shops', {
     })
 Shop.hasMany(Product)
 Product.belongsTo(Shop)
-Shop.hasMany(User)
-User.belongsTo(Shop)
+Shop.belongsTo(User)
 
 module.exports = Shop

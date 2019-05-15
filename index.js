@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const userRouter = require('./users/routes')
 const shopRouter = require('./shops/routes')
-const authenticationRouter = require('./auth/routes')
+const authenticationRouter = require('./authorization/routes')
 const cors = require("cors");
 
 const app = express()

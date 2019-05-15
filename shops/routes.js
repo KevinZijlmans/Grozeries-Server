@@ -7,7 +7,10 @@ router.post('/shops', (req, res, next) => {
     const shop = {
         shop_name: req.body.shop_name,
         email: req.body.email,
-        address: req.body.address,
+        street_name: req.body.street_name,
+        house_number: req.body.house_number,
+        zipcode: req.body.zipcode,
+        city: req.body.city,
         phonenumber: req.body.phonenumber,
         business_hours: req.body.business_hours,
         shop_image: req.body.shop_image,

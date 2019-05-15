@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const Product = require('./model')
+const Shop = require('../shops/model')
 
 const router = new Router()
 
@@ -7,7 +8,7 @@ router.post('/shops/:id/products', (req, res, next) => {
     const product = {
         product_name: req.body.product_name,
         price: req.body.price,
-        description: req.body.desrciption,
+        description: req.body.description,
         ingredients: req.body.ingredients,
         allergens: req.body.allergens,
         prices_by: req.body.prices_by,
@@ -30,7 +31,7 @@ router.post('/shops/:id/products', (req, res, next) => {
 
 router.get('/shops/:id/products', (req, res, next) => {
     Product
-        .findAll()
+        .findAll({include: [Shop]})
         .then(products => {
             res.send(products)
         })
@@ -101,7 +102,7 @@ router.put('/shops/:id/products/:productid', (req, res, next) => {
 
 router.delete('/shops/:id/products/:productid', (req, res, next) => {
     Product
-        .findByPk(re.params.id)
+        .findByPk(req.params.id)
         .then(product => {
             if (!product) {
                 return res.status(404).send({

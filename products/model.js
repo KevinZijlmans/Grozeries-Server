@@ -42,11 +42,6 @@ const Product = sequelize.define('products', {
         field: 'in_stock',
         allowNull: false
     },
-    active: {
-        type: Sequelize.STRING,
-        field: 'active',
-        allowNull: false
-    },
     image: {
         type: Sequelize.STRING,
         field: 'image',
@@ -57,6 +52,6 @@ const Product = sequelize.define('products', {
         timestamps: true,
         tableName: 'products'
     })
-    
 
-  module.exports = Product
+
+module.exports = Product

@@ -13,8 +13,7 @@ router.post('/shops/:id/products', (req, res, next) => {
         prices_by: req.body.prices_by,
         quantity: req.body.quantity,
         in_stock: req.body.in_stock,
-        image: req.body.image,
-        active: req.body.active
+        image: req.body.image
     }
     Product
         .create(product)

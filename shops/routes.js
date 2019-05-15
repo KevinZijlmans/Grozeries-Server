@@ -9,7 +9,9 @@ router.post('/shops', (req, res, next) => {
         email: req.body.email,
         address: req.body.address,
         phonenumber: req.body.phonenumber,
-        business_hours: req.body.business_hours
+        business_hours: req.body.business_hours,
+        shop_image: req.body.shop_image,
+        active: req.body.active
     }
     Shop
         .create(shop)

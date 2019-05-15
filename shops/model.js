@@ -48,7 +48,12 @@ const Shop = sequelize.define('shops', {
         type: Sequelize.STRING,
         field: 'shop_image',
         allowNull: false
-    }
+    },
+    active: {
+        type: Sequelize.BOOLEAN,
+        field: 'active',
+        allowNull: false
+    },
 },
     {
         timestamps: true,

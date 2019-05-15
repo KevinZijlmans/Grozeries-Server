@@ -10,7 +10,10 @@ router.post('/register', (req, res, next) => {
         last_name: req.body.last_name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 10),
-        address: req.body.address,
+        street_name: req.body.street_name,
+        house_number: req.body.house_number,
+        zipcode: req.body.zipcode,
+        city: req.body.city,
         phonenumber: req.body.phonenumber,
         user_type: req.body.user_type
     }

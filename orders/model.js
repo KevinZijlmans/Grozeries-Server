@@ -40,8 +40,6 @@ Order.hasMany(Product)
 Product.belongsTo(Order)
 Order.belongsTo(User)
 User.hasMany(Order)
-Order.hasMany(Shop)
-Shop.belongsTo(Order)
 Order.hasMany(Orderline)
 Orderline.belongsTo(Order)
 

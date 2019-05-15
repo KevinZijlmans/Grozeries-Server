@@ -4,20 +4,10 @@ const Shop = require('../shops/model')
 
 const router = new Router()
 
-router.post('/shops/:id/products', (req, res, next) => {
-    const product = {
-        product_name: req.body.product_name,
-        price: req.body.price,
-        description: req.body.description,
-        ingredients: req.body.ingredients,
-        allergens: req.body.allergens,
-        prices_by: req.body.prices_by,
-        quantity: req.body.quantity,
-        in_stock: req.body.in_stock,
-        image: req.body.image
-    }
+router.post('/shops/:id', (req, res, next) => {
+
     Product
-        .create(product)
+        .create(req.body)
         .then(product => {
             if (!product) {
                 return res.status(404).send({
@@ -31,7 +21,7 @@ router.post('/shops/:id/products', (req, res, next) => {
 
 router.get('/shops/:id/products', (req, res, next) => {
     Product
-        .findAll({include: [Shop]})
+        .findAll({ include: [Shop] })
         .then(products => {
             res.send(products)
         })

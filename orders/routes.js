@@ -1,18 +1,13 @@
 const { Router } = require('express')
 const Order = require('./model')
+const Product = require('../products/model')
 
 const router = new Router()
 
 router.post('/orders', (req, res, next) => {
-    const order = {
-        address: req.body.address,
-        comments: req.body.comments,
-        delivery_time: req.body.delivery_time,
-        status: req.body.status,
-        payment_id: req.body.payment_id
-    }
+
     Order
-        .create(order)
+        .create(req.body)
         .then(order => {
             if (!order) {
                 return res.status(404).send({
@@ -26,7 +21,7 @@ router.post('/orders', (req, res, next) => {
 
 router.get('/orders', (req, res, next) => {
     Order
-        .findAll()
+        .findAll({ include: [Product] })
         .then(orders => {
             res.send(orders)
         })
@@ -40,7 +35,7 @@ router.get('/orders', (req, res, next) => {
 
 router.get('/orders/:id', (req, res, next) => {
     Order
-        .findByPk(req.params.id)
+        .findByPk(req.params.id, { include: [Product] })
         .then(order => {
             if (!order) {
                 return res.status(404).send({
@@ -49,10 +44,10 @@ router.get('/orders/:id', (req, res, next) => {
             }
             order.getOrderlines()
                 .then(orderlines => {
-                    res.send({...order.dataValues, orderlines})
+                    res.send({ ...order.dataValues, orderlines })
+                })
+                .catch(error => next(error))
         })
-        .catch(error => next(error))
-    })
 })
 
 router.put('/orders/:id', (req, res, next) => {

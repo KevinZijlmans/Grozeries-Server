@@ -47,9 +47,12 @@ router.get('/orders/:id', (req, res, next) => {
                     message: `order does not exist`
                 })
             }
-            return res.send(order)
+            order.getOrderlines()
+                .then(orderlines => {
+                    res.send({...order.dataValues, orderlines})
         })
         .catch(error => next(error))
+    })
 })
 
 router.put('/orders/:id', (req, res, next) => {

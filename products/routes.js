@@ -34,7 +34,7 @@ router.get('/products/categories', (req, res, next) => {
         })
 })
 
-router.get('/products/:productid', (req, res, next) => {
+router.get('/products/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -48,7 +48,7 @@ router.get('/products/:productid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/products/categories/:catid', (req, res, next) => {
+router.get('/products/categories/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -62,7 +62,7 @@ router.get('/products/categories/:catid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.put('/products/:productid', (req, res, next) => {
+router.put('/products/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -77,7 +77,7 @@ router.put('/products/:productid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.delete('/products/:productid', (req, res, next) => {
+router.delete('/products/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {

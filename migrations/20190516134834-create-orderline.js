@@ -16,17 +16,19 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
+        defaultValue: new Date(),
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
+        defaultValue: new Date(),
         type: Sequelize.DATE
       },
-      orderId: {
+      productId: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      productId: {
+      orderId: {
         allowNull: false,
         type: Sequelize.INTEGER
       }

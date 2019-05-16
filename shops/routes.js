@@ -1,23 +1,13 @@
 const { Router } = require('express')
 const Shop = require('./model')
+const Product = require('../products/model')
 
 const router = new Router()
 
 router.post('/shops', (req, res, next) => {
-    const shop = {
-        shop_name: req.body.shop_name,
-        email: req.body.email,
-        street_name: req.body.street_name,
-        house_number: req.body.house_number,
-        zipcode: req.body.zipcode,
-        city: req.body.city,
-        phonenumber: req.body.phonenumber,
-        business_hours: req.body.business_hours,
-        shop_image: req.body.shop_image,
-        active: req.body.active
-    }
+
     Shop
-        .create(shop)
+        .create(req.body)
         .then(shop => {
             if (!shop) {
                 return res.status(404).send({
@@ -31,7 +21,7 @@ router.post('/shops', (req, res, next) => {
 
 router.get('/shops', (req, res, next) => {
     Shop
-        .findAll()
+        .findAll({ include: [Product] })
         .then(shops => {
             res.send(shops)
         })
@@ -45,7 +35,7 @@ router.get('/shops', (req, res, next) => {
 
 router.get('/shops/:id', (req, res, next) => {
     Shop
-        .findByPk(req.params.id)
+        .findByPk(req.params.id, { include: [Product] })
         .then(shop => {
             if (!shop) {
                 return res.status(404).send({

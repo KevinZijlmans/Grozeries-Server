@@ -4,7 +4,7 @@ const userRouter = require('./users/routes')
 const shopRouter = require('./shops/routes')
 const authenticationRouter = require('./authorization/routes')
 const orderRouter = require('./orders/routes')
-const productRouter= require('./products/routes')
+const productRouter = require('./products/routes')
 const cors = require("cors");
 
 const app = express()

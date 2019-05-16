@@ -1,5 +1,5 @@
-const User = require('../models/usersP')
-const {toData} = require('./jwt')
+const User = require('../models/user')
+const { toData } = require('./jwt')
 
 function auth(req, res, next) {
   const auth = req.headers.authorization && req.headers.authorization.split(' ')
@@ -16,7 +16,7 @@ function auth(req, res, next) {
         })
         .catch(next)
     }
-    catch(error) {
+    catch (error) {
       res.status(401).send({
         message: 'Please supply some valid credentials'
       })
@@ -24,7 +24,7 @@ function auth(req, res, next) {
   }
   else {
     res.status(400).send({
-        message: `Error ${error.name}: ${error.message}`
+      message: `Error ${error.name}: ${error.message}`
     })
   }
 }

@@ -2,13 +2,27 @@ const Sequelize = require('../node_modules/sequelize')
 const sequelize = require('../db')
 const User = require('../users/model')
 const Orderline = require('../orderlines/model')
-const Shop = require('../shops/model')
 const Product = require('../products/model')
 
 const Order = sequelize.define('orders', {
-    address: {
+    street_name: {
         type: Sequelize.STRING,
-        field: 'address',
+        field: 'street_name',
+        allowNull: false
+    },
+    house_number: {
+        type: Sequelize.STRING,
+        field: 'house_number',
+        allowNull: false
+    },
+    zipcode: {
+        type: Sequelize.STRING,
+        field: 'zipcode',
+        allowNull: false
+    },
+    city: {
+        type: Sequelize.STRING,
+        field: 'city',
         allowNull: false
     },
     comments: {

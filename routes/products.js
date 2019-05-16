@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const Product = require('../models/productsP')
-const Shop = require('../models/shopsP')
+const Product = require('../models/product')
+const Shop = require('../models/shop')
 
 const router = new Router()
 

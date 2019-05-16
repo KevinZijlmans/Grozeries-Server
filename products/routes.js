@@ -19,19 +19,6 @@ router.post('/shops/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-// router.get('/shops/:id/products', (req, res, next) => {
-//     Product
-//         .findAll({ include: [Shop] })
-//         .then(products => {
-//             res.send(products)
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: 'Something went wrong',
-//                 error: err
-//             })
-//         })
-// })
 
 router.get('/products/categories', (req, res, next) => {
     Product
@@ -47,7 +34,7 @@ router.get('/products/categories', (req, res, next) => {
         })
 })
 
-router.get('/shops/:id/products/:productid', (req, res, next) => {
+router.get('/products/:productid', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -75,7 +62,7 @@ router.get('/products/categories/:catid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.put('/shops/:id/products/:productid', (req, res, next) => {
+router.put('/products/:productid', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -90,7 +77,7 @@ router.put('/shops/:id/products/:productid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.delete('/shops/:id/products/:productid', (req, res, next) => {
+router.delete('/products/:productid', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {

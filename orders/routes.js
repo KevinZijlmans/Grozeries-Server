@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const Order = require('./model')
 const Orderline = require('../orderlines/model')
+const Product = require('../products/model')
 
 const router = new Router()
 
@@ -29,7 +30,6 @@ router.post('/orders', (req, res, next) => {
         })
 
 })
-
 
 router.get('/orders', (req, res, next) => {
     Order
@@ -76,4 +76,3 @@ router.put('/orders/:id', (req, res, next) => {
 
 module.exports = router
 
-//

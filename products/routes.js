@@ -19,19 +19,19 @@ router.post('/shops/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/shops/:id/products', (req, res, next) => {
-    Product
-        .findAll({ include: [Shop] })
-        .then(products => {
-            res.send(products)
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: 'Something went wrong',
-                error: err
-            })
-        })
-})
+// router.get('/shops/:id/products', (req, res, next) => {
+//     Product
+//         .findAll({ include: [Shop] })
+//         .then(products => {
+//             res.send(products)
+//         })
+//         .catch(err => {
+//             res.status(500).send({
+//                 message: 'Something went wrong',
+//                 error: err
+//             })
+//         })
+// })
 
 router.get('/products/categories', (req, res, next) => {
     Product

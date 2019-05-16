@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { toJWT }= require('./jwt')
+const { toJWT } = require('./jwt')
 const User = require('../users/model')
 const bcrypt = require('bcrypt')
 
@@ -33,7 +33,8 @@ router.post('/logins', (req, res) => {
             jwt: toJWT({ userId: entity.id }),
             first_name: entity.first_name,
             last_name: entity.last_name,
-            id: entity.id
+            id: entity.id,
+            user_type: entity.user_type
           })
         }
         else {
@@ -50,5 +51,5 @@ router.post('/logins', (req, res) => {
       })
   }
 })
-  
+
 module.exports = router

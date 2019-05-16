@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER
   }, {});
   Order.associate = function(models) {
-   Order.belongsTo(User)
-   Order.hasMany(Orderline)
+   Order.belongsTo(models.User)
+   Order.hasMany(models.Orderline)
   };
   return Order;
 };

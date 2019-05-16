@@ -1,7 +1,6 @@
 const { Router } = require('express')
 const Order = require('../models/order')
-const Orderline = require('../models/orderline')
-const Product = require('../models/product')
+const Orderline = require('../models').Orderline
 
 const router = new Router()
 

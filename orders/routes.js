@@ -1,27 +1,33 @@
 const { Router } = require('express')
 const Order = require('./model')
-const Product = require('../products/model')
+const Orderline = require('../orderlines/model')
 
 const router = new Router()
 
 router.post('/orders', (req, res, next) => {
 
+    const orderline = {
+        quantity,
+        product,
+        price
+    }
+
     Order
-        .create(req.body)
-        .then(order => {
-            if (!order) {
-                return res.status(404).send({
-                    message: `order does not exist`
-                })
-            }
-            return res.status(201).send(order)
-        })
-        .catch(error => next(error))
+        .create(req.body, orderline), { include: [Orderline] }
+            .then(order => {
+                if (!order) {
+                    return res.status(404).send({
+                        message: `order does not exist`
+                    })
+                }
+                return res.status(201).send(order)
+            })
+            .catch(error => next(error))
 })
 
 router.get('/orders', (req, res, next) => {
     Order
-        .findAll({ include: [Product] })
+        .findAll({ include: [Orderline] })
         .then(orders => {
             res.send(orders)
         })
@@ -35,19 +41,16 @@ router.get('/orders', (req, res, next) => {
 
 router.get('/orders/:id', (req, res, next) => {
     Order
-        .findByPk(req.params.id, { include: [Product] })
+        .findByPk(req.params.id, { include: [Orderline] })
         .then(order => {
             if (!order) {
                 return res.status(404).send({
                     message: `order does not exist`
                 })
             }
-            order.getOrderlines()
-                .then(orderlines => {
-                    res.send({ ...order.dataValues, orderlines })
-                })
-                .catch(error => next(error))
+            return res.send(order)
         })
+        .catch(error => next(error))
 })
 
 router.put('/orders/:id', (req, res, next) => {

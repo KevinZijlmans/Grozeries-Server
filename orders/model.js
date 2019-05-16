@@ -2,7 +2,6 @@ const Sequelize = require('../node_modules/sequelize')
 const sequelize = require('../db')
 const User = require('../users/model')
 const Orderline = require('../orderlines/model')
-const Product = require('../products/model')
 
 const Order = sequelize.define('orders', {
     street_name: {
@@ -50,8 +49,7 @@ const Order = sequelize.define('orders', {
         timestamps: true,
         tableName: 'orders'
     })
-Order.hasMany(Product)
-Product.belongsTo(Order)
+
 Order.belongsTo(User)
 User.hasMany(Order)
 Order.hasMany(Orderline)

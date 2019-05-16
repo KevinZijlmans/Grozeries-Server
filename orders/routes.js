@@ -6,24 +6,33 @@ const router = new Router()
 
 router.post('/orders', (req, res, next) => {
 
-    const orderline = {
-        quantity,
-        product,
-        price
-    }
-
     Order
-        .create(req.body, orderline), { include: [Orderline] }
-            .then(order => {
-                if (!order) {
-                    return res.status(404).send({
-                        message: `order does not exist`
-                    })
-                }
-                return res.status(201).send(order)
+        .create(req.body)
+        .then(order => {
+            return Orderline.create(req.body).then(orderline => {
+                return order.addOrderline(orderline).then(result => {
+                    if (!orderline) {
+                        return res.status(404).send({
+                            message: `orderline does not exist`
+                        })
+                    }
+                    return res.status(201).send(order)
+
+                })
             })
-            .catch(error => next(error))
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: 'Something went wrong',
+                error: err
+            })
+        })
+
 })
+
+
+
+
 
 router.get('/orders', (req, res, next) => {
     Order

@@ -31,9 +31,6 @@ router.post('/orders', (req, res, next) => {
 })
 
 
-
-
-
 router.get('/orders', (req, res, next) => {
     Order
         .findAll({ include: [Orderline] })
@@ -78,3 +75,5 @@ router.put('/orders/:id', (req, res, next) => {
 })
 
 module.exports = router
+
+//

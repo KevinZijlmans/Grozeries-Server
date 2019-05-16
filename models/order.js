@@ -1,0 +1,19 @@
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Order = sequelize.define('Order', {
+    street_name: DataTypes.STRING,
+    house_number: DataTypes.STRING,
+    zipcode: DataTypes.STRING,
+    city: DataTypes.STRING,
+    comments: DataTypes.STRING,
+    delivery_time: DataTypes.DATE,
+    status: DataTypes.STRING,
+    payment_id: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
+  }, {});
+  Order.associate = function(models) {
+   Order.belongsTo(User)
+   Order.hasMany(Orderline)
+  };
+  return Order;
+};

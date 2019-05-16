@@ -1,10 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const userRouter = require('./users/routes')
-const shopRouter = require('./shops/routes')
+const userRouter = require('./routes/users')
+const shopRouter = require('./routes/shops')
 const authenticationRouter = require('./authorization/routes')
-const orderRouter = require('./orders/routes')
-const productRouter = require('./products/routes')
+const orderRouter = require('./routes/orders')
+const productRouter = require('./routes/products')
 const cors = require("cors");
 
 const app = express()

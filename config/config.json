@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "secret",
+    "database": "Grozeries_development",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "secret",
+    "database": "Grozeries_test",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "secret",
+    "database": "Grozeries_production",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "dialect": "postgres"
+  }
+}

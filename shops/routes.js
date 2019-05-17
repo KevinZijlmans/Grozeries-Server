@@ -1,10 +1,12 @@
 const { Router } = require('express')
 const Shop = require('./model')
 const Product = require('../products/model')
+const auth = require("../authorization/middleware")
+
 
 const router = new Router()
 
-router.post('/shops', (req, res, next) => {
+router.post('/shops', auth, (req, res, next) => {
 
     Shop
         .create(req.body)
@@ -47,7 +49,7 @@ router.get('/shops/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.put('/shops/:id', (req, res, next) => {
+router.put('/shops/:id', auth, (req, res, next) => {
     Shop
         .findByPk(req.params.id)
         .then(shop => {
@@ -62,7 +64,7 @@ router.put('/shops/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.delete('/shops/:id', (req, res, next) => {
+router.delete('/shops/:id', auth, (req, res, next) => {
     Shop
         .findByPk(re.params.id)
         .then(shop => {

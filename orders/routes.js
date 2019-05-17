@@ -2,10 +2,12 @@ const { Router } = require('express')
 const Order = require('./model')
 const Orderline = require('../orderlines/model')
 const Product = require('../products/model')
+const auth = require("../authorization/middleware")
+
 
 const router = new Router()
 
-router.post('/orders', (req, res, next) => {
+router.post('/orders', auth, (req, res, next) => {
 
     Order
         .create(req.body)
@@ -31,7 +33,7 @@ router.post('/orders', (req, res, next) => {
 
 })
 
-router.get('/orders', (req, res, next) => {
+router.get('/orders', auth, (req, res, next) => {
     Order
         .findAll({ include: [Orderline] })
         .then(orders => {
@@ -45,7 +47,7 @@ router.get('/orders', (req, res, next) => {
         })
 })
 
-router.get('/orders/:id', (req, res, next) => {
+router.get('/orders/:id', auth, (req, res, next) => {
     Order
         .findByPk(req.params.id, { include: [Orderline] })
         .then(order => {
@@ -59,7 +61,7 @@ router.get('/orders/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.put('/orders/:id', (req, res, next) => {
+router.put('/orders/:id', auth, (req, res, next) => {
     Order
         .findByPk(req.params.id)
         .then(order => {

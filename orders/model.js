@@ -43,6 +43,16 @@ const Order = sequelize.define('orders', {
         type: Sequelize.INTEGER,
         field: 'payment_id',
         allowNull: false
+    },
+    payment_initiated: {
+        type: Sequelize.BOOLEAN,
+        field: 'payment_initiated',
+        allowNull: true
+    },
+    payment_amount: {
+        type: Sequelize.STRING,
+        field: 'payment_amount',
+        allowNull: true
     }
 },
     {
@@ -54,6 +64,7 @@ Order.belongsTo(User)
 User.hasMany(Order)
 Order.hasMany(Orderline)
 Orderline.belongsTo(Order)
+
 
 
 module.exports = Order

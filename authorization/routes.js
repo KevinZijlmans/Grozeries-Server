@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const { toJWT } = require('./jwt')
-const User = require('../models/user')
+
+const User = require('../models').User
 const bcrypt = require('bcrypt')
 
 

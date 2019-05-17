@@ -11,9 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     payment_id: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   }, {});
-  Order.associate = function (models) {
-    Order.belongsTo(models.User)
-    Order.hasMany(models.Orderline)
+
+  Order.associate = function(models) {
+   Order.belongsTo(models.User)
+   Order.hasMany(models.Orderline)
+ 
   };
   return Order;
 };

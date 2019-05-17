@@ -33,6 +33,12 @@ router.post('/logins', (req, res) => {
             jwt: toJWT({ userId: entity.id }),
             first_name: entity.first_name,
             last_name: entity.last_name,
+            email: entity.email,
+            street_name: entity.street_name,
+            house_number: entity.house_number,
+            zipcode: entity.zipcode,
+            city: entity.city,
+            phonenumber: entity.phonenumber,
             id: entity.id,
             user_type: entity.user_type
           })

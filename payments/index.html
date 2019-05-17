@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Order</title>
+</head>
+<body>
+  <h1>Make Purchase</h1>
+
+  <!-- this is copied from the Stripe checkout embed -->
+  <form action="/your-server-side-code" method="POST">
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="pk_test_yVFi0vBW5pBM8rmqxNFZ9ArD00PD133bTp"
+      data-amount="999"
+      data-currency="EUR"
+      data-name="My Company"
+      data-description="Mijn Bestelling"
+      data-label="Afrekenen"
+      data-zip-code="true"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </form>
+  <!-- end of Stripe embed -->
+
+</body>
+</html>

@@ -5,34 +5,28 @@ const Orderline = require('../models').Orderline
 const router = new Router()
 
 router.post('/orders', (req, res, next) => {
-
     Order
         .create(req.body)
         .then(order => {
-            return Orderline.create(req.body).then(orderline => {
-                return order.addOrderline(orderline).then(result => {
-                    if (!orderline) {
-                        return res.status(404).send({
-                            message: `orderline does not exist`
-                        })
-                    }
-                    return res.status(201).send(order)
+            if (!order) {
+                return res.status(404).send({
+                    message: `order does not exist`
+                })
+            }
+            return res.status(201).send(order)
 
                 })
+            .catch(err => {
+                res.status(500).send({
+                    message: 'Something went wrong',
+                    error: err
+                })
             })
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: 'Something went wrong',
-                error: err
-            })
-        })
-
 })
 
 router.get('/orders', (req, res, next) => {
     Order
-        .findAll({ include: [Orderline] })
+        .findAll()
         .then(orders => {
             res.send(orders)
         })

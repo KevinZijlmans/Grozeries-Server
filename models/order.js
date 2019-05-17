@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     delivery_time: DataTypes.DATE,
     status: DataTypes.STRING,
     payment_id: DataTypes.INTEGER,
-    UserId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER,
+    total_price: DataTypes.INTEGER
   }, {});
 
   Order.associate = function (models) {

@@ -45,6 +45,10 @@ module.exports = {
       UserId: {
         allowNull: false,
         type: Sequelize.INTEGER
+      },
+      total_price: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       }
     });
   },

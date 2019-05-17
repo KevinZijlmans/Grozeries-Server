@@ -6,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     productId: DataTypes.INTEGER,
     orderId: DataTypes.INTEGER
   }, {});
-  Orderline.associate = function(models) {
+  Orderline.associate = function (models) {
     Orderline.belongsTo(models.Product)
-    Orderline.belongsTo(models.Order, { foreignKey: 'orderId'})
+    Orderline.belongsTo(models.Order)
   };
   return Orderline;
 };

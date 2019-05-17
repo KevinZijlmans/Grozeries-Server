@@ -45,7 +45,7 @@ module.exports = {
         defaultValue: new Date(),
         type: Sequelize.DATE
       },
-      shopId: {
+      ShopId: {
         allowNull: false,
         type: Sequelize.INTEGER
       }

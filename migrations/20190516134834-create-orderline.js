@@ -24,11 +24,11 @@ module.exports = {
         defaultValue: new Date(),
         type: Sequelize.DATE
       },
-      productId: {
+      ProductId: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      orderId: {
+      OrderId: {
         allowNull: false,
         type: Sequelize.INTEGER
       }

@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
     delivery_time: DataTypes.DATE,
     status: DataTypes.STRING,
     payment_id: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER
   }, {});
 
-  Order.associate = function(models) {
-   Order.belongsTo(models.User)
-   Order.hasMany(models.Orderline)
- 
+  Order.associate = function (models) {
+    Order.belongsTo(models.User)
+    Order.hasMany(models.Orderline)
+
   };
   return Order;
 };

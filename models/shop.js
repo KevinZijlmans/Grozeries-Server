@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     business_hours: DataTypes.STRING,
     shop_image: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
-    userId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER
   }, {});
-  Shop.associate = function(models) {
-  Shop.hasMany(models.Product)
-  Shop.belongsTo(models.User)  };
+  Shop.associate = function (models) {
+    Shop.hasMany(models.Product)
+    Shop.belongsTo(models.User)
+  };
   return Shop;
 };

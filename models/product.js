@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     in_stock: DataTypes.BOOLEAN,
     image: DataTypes.STRING,
-    shopId: DataTypes.INTEGER
+    ShopId: DataTypes.INTEGER
   }, {});
   Product.associate = function (models) {
     Product.hasMany(models.Orderline)

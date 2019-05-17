@@ -22,7 +22,7 @@ router.post('/shops', (req, res, next) => {
 
 router.get('/shops', (req, res, next) => {
     Shop
-        .findAll({ include: [Product] })
+        .findAll()
         .then(shops => {
             res.send(shops)
         })
@@ -65,7 +65,7 @@ router.put('/shops/:id', (req, res, next) => {
 
 router.delete('/shops/:id', (req, res, next) => {
     Shop
-        .findByPk(re.params.id)
+        .findByPk(req.params.id)
         .then(shop => {
             if (!shop) {
                 return res.status(404).send({

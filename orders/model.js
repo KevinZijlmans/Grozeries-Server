@@ -42,7 +42,7 @@ const Order = sequelize.define('orders', {
     payment_id: {
         type: Sequelize.INTEGER,
         field: 'payment_id',
-        allowNull: false
+        allowNull: true
     },
     payment_amount: {
         type: Sequelize.STRING,

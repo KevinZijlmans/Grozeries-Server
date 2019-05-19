@@ -5,12 +5,12 @@ const Order = require('../orders/model')
 const Payment = sequelize.define('payments', {
     order_id: {
         type: Sequelize.INTEGER,
-        field: 'payment_id',
+        field: 'order_id',
         allowNull: false
     },
     payment_ok: {
         type: Sequelize.BOOLEAN,
-        field: 'payment_id',
+        field: 'payment_ok',
         defaultValue: false,
         allowNull: true
     },

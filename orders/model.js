@@ -30,7 +30,7 @@ const Order = sequelize.define('orders', {
         allowNull: false
     },
     delivery_time: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         field: 'delivery_time',
         allowNull: false
     },
@@ -44,16 +44,17 @@ const Order = sequelize.define('orders', {
         field: 'payment_id',
         allowNull: false
     },
-    payment_initiated: {
-        type: Sequelize.BOOLEAN,
-        field: 'payment_initiated',
-        allowNull: true
-    },
     payment_amount: {
         type: Sequelize.STRING,
         field: 'payment_amount',
         allowNull: true
-    }
+    },
+    payment_started: {
+        type: Sequelize.BOOLEAN,
+        field: 'payment_started',
+        defaultValue: false,
+        allowNull: true
+    },
 },
     {
         timestamps: true,

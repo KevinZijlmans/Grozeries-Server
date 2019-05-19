@@ -7,47 +7,47 @@ const Product = sequelize.define('products', {
     product_name: {
         type: Sequelize.STRING,
         field: 'product_name',
-        allowNull: false
+        allowNull: true
     },
     price: {
         type: Sequelize.STRING,
         field: 'price',
-        allowNull: false
+        allowNull: true
     },
     description: {
         type: Sequelize.STRING,
         field: 'description',
-        allowNull: false
+        allowNull: true
     },
     ingredients: {
         type: Sequelize.STRING,
         field: 'ingredients',
-        allowNull: false
+        allowNull: true
     },
     allergens: {
         type: Sequelize.STRING,
         field: 'allergens',
-        allowNull: false
+        allowNull: true
     },
     prices_by: {
         type: Sequelize.STRING,
         field: 'prices_by',
-        allowNull: false
+        allowNull: true
     },
     quantity: {
         type: Sequelize.INTEGER,
         field: 'quantity',
-        allowNull: false
+        allowNull: true
     },
     in_stock: {
         type: Sequelize.BOOLEAN,
         field: 'in_stock',
-        allowNull: false
+        allowNull: true
     },
     image: {
         type: Sequelize.STRING,
         field: 'image',
-        allowNull: false
+        allowNull: true
     }
 },
     {

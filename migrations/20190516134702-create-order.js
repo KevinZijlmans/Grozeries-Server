@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Orders', {
+    return queryInterface.createTable('orders', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -40,6 +40,18 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER
       },
+      payment_amount: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      payment_started: {
+        allowNull: true,
+        type: Sequelize.BOOLEAN
+      },
+      payment_ok: {
+        allowNull: true,
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         defaultValue: new Date(),
@@ -50,13 +62,13 @@ module.exports = {
         defaultValue: new Date(),
         type: Sequelize.DATE
       },
-      UserId: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Orders');
+    return queryInterface.dropTable('orders');
   }
 };

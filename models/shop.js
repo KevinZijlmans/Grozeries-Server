@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Shop = sequelize.define('Shop', {
+  const Shop = sequelize.define('shop', {
     shop_name: DataTypes.STRING,
     email: DataTypes.STRING,
     street_name: DataTypes.STRING,
@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     business_hours: DataTypes.STRING,
     shop_image: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
-    UserId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER
   }, {});
   Shop.associate = function (models) {
-    Shop.hasMany(models.Product)
-    Shop.belongsTo(models.User)
+    Shop.hasMany(models.product)
+    Shop.belongsTo(models.user)
   };
   return Shop;
 };

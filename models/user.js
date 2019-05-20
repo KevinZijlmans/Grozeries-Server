@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const User = sequelize.define('user', {
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     user_type: DataTypes.STRING
   }, {});
   User.associate = function (models) {
-    User.hasMany(models.Order)
+    User.hasMany(models.order)
   };
   return User;
 };

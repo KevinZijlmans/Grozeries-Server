@@ -91,7 +91,7 @@ router.post('/orders/:id/payments', (req, res, next) => {
         } order.payment_started = true
         console.log("Order 1 changed payment started to true", order)
         order.save()
-        return res.status(201).send({
+        return res.status(200).send({
             message: `Order payment initiated`
         })
     })
@@ -104,7 +104,7 @@ router.post('/orders/:id/payments', (req, res, next) => {
                 "currency": "EUR"
             },
             "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: ${orderAmount}`,
-            "redirectUrl": "http://localhost:3000/products/1",
+            "redirectUrl": `http://localhost:3000/orders/thank-you/`,
             // "webhookUrl":  `http://localhost:4000/payments/${orderId}/webhook/`,
             "webhookUrl":  "http://albertsm.it/",
             "method": "ideal"
@@ -124,6 +124,34 @@ router.post('/orders/:id/payments', (req, res, next) => {
             // Handle the error
             });
 })
+
+router.post(`orders/:id/webhook/`, auth, (req, res, next) => {
+(async () => {
+    const orderId = req.params.id
+    const mollieClient = mollie({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
+  
+    try {
+      const payment = await mollieClient.payments.get(res);
+      // Check if payment is paid - the response of the webhook has as a response an id unique to that payment, e.g. id=tr_d0b0E3EA3v
+      const isPaid = payment.isPaid();
+  
+      if (isPaid) {
+        console.log('Payment is paid');
+        Order
+        .findByPk(orderId)
+        .then(order => order.payment_ok = true)
+         console.log("Order 1 changed payment ok to true", order)
+        .save()
+    }
+        else {
+        console.log(`Payment is not paid, but instead it is: ${payment.status}`);
+      }
+    } 
+    catch (e) {
+      console.log(e);
+    }
+  })
+});
 
 module.exports = router
 

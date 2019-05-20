@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const Order = require('../orders/model')
 // const Orderline = require('../orderlines/model')
-const Payment = require('../payments/model')
+// const Payment = require('../payments/model')
 // const auth = require("../authorization/middleware")
 const mollie = require('@mollie/api-client')({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
 
@@ -9,41 +9,23 @@ const router = new Router()
 
 router.post('/orders/:id/payments', (req, res, next) => {
     const orderId = req.params.id
-    // const orderNumber = 1
     // const orderAmount = req.payment_amount
     const orderAmount = '100'
     Order
     .findByPk(orderId)
     .then((order) => {
         if (!order) {
-            console.log("no f*ing order: ", order)
             return res.status(404).send({
                 message: `order does not exist`
             }) 
         } order.payment_started = true
-        console.log("Order 1 changed", order)
+        console.log("Order 1 changed payment started to true", order)
         order.save()
-        return order
-    })
-    Payment
-        .create({order_id : 1, payment_amount: '100', orderId: 1})
-        .then((payment) => {
-            console.log("payment created: ", payment)
-            if (!payment) {
-                return res.status(404).send({
-                    message: `payment does not exist`
-                })
-            }
-            // else console.log("PAY BITCH", payment)
-            else return res.status(201).send(payment)
-            // else payment.save()
+        return res.status(201).send({
+            message: `Order payment initiated`
         })
-        // .save()
-        // .then(payment => {
-        // })
-        .catch(error => next(error))
-        // console.log("Payment.create", Payment.create({order_id : 1, payment_amount: 100}))
-        // console.log("Payment: ",Payment)
+    })
+    .catch(error => next(error))
     
     mollie.payments
         .create({
@@ -75,9 +57,10 @@ router.post('/orders/:id/payments', (req, res, next) => {
 
 // router.post(`payments/${paymentId}/webhook/`, auth, (req, res, next) => {
 //     const orderId = req.params.id
-//     Payment
+//     Order
 //     .findByPk(orderId)
-//     .then(payment => payment.payment_ok = true)
+//     .then(order => order.payment_ok = true)
+//      console.log("Order 1 changed payment ok to true", order)
 //     .save()
 // })
 

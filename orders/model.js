@@ -39,11 +39,6 @@ const Order = sequelize.define('orders', {
         field: 'status',
         allowNull: false
     },
-    payment_id: {
-        type: Sequelize.INTEGER,
-        field: 'payment_id',
-        allowNull: true
-    },
     payment_amount: {
         type: Sequelize.STRING,
         field: 'payment_amount',
@@ -52,6 +47,12 @@ const Order = sequelize.define('orders', {
     payment_started: {
         type: Sequelize.BOOLEAN,
         field: 'payment_started',
+        defaultValue: false,
+        allowNull: true
+    },
+    payment_ok: {
+        type: Sequelize.BOOLEAN,
+        field: 'payment_ok',
         defaultValue: false,
         allowNull: true
     },

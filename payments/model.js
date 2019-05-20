@@ -8,12 +8,7 @@ const Payment = sequelize.define('payments', {
         field: 'order_id',
         allowNull: false
     },
-    payment_ok: {
-        type: Sequelize.BOOLEAN,
-        field: 'payment_ok',
-        defaultValue: false,
-        allowNull: true
-    },
+    
     payment_amount: {
         type: Sequelize.STRING,
         field: 'payment_amount',

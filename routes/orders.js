@@ -53,12 +53,12 @@ router.get('/orders/:id', (req, res, next) => {
                 })
             }
 
-            Orderline
-                .findAll()
-                .then(orderlines => {
-                    console.log('orderlines price', orderlines.dataValues)
-                    order.total_price = totalSum(orderlines, order)
-                })
+            // Orderline
+            //     .findAll()
+            //     .then(orderlines => {
+            //         console.log('orderlines price', orderlines.dataValues)
+            //         order.total_price = totalSum(orderlines, order)
+            //     })
             return res.send(order)
         })
         .catch(error => next(error))

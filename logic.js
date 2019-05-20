@@ -7,6 +7,9 @@ function totalSum(orderlines, order) {
     const orderlinePrice = orderlineThisOrder.map(orderline => orderline.price)
     const orderlineQuantity = orderlineThisOrder.map(orderline => orderline.quantity)
 
+    console.log('orderlinePrice', orderlinePrice)
+
+
     console.log('orderlineThisOrder', orderlineThisOrder)
 
     return orderlines.price * orderlines.quantity

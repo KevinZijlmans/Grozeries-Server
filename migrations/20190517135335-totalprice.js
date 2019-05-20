@@ -1,15 +1,15 @@
 'use strict';
 
 module.exports = {
- up: (queryInterface, Sequelize) => {
+  up: (queryInterface, Sequelize) => {
 
-     return queryInterface.addColumn('Orders', 'total_price', {
-       type: Sequelize.INTEGER
-      });
- },
+    return queryInterface.addColumn('Orderlines', 'total_price', {
+      type: Sequelize.INTEGER
+    });
+  },
 
- down: (queryInterface, Sequelize) => {
+  down: (queryInterface, Sequelize) => {
 
-     return queryInterface.removeColumn('Orders', 'total_price');
- }
+    return queryInterface.removeColumn('Orderlines', 'total_price');
+  }
 };

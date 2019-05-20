@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const Orderline = require('../models').Orderline
-
+const totalSum = require('../logic')
 const router = new Router()
 
 router.post('/orders/:id', (req, res, next) => {
@@ -16,6 +16,8 @@ router.post('/orders/:id', (req, res, next) => {
                     message: `orderline does not exist`
                 })
             }
+
+            orderline.total_price= totalSum(orderline)
             return res.status(201).send(orderline)
         })
         .catch(err => {

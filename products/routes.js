@@ -8,7 +8,7 @@ const router = new Router()
 router.post('/shops/:id', auth, (req, res, next) => {
 
     Product
-        .create(req.body)
+        .create(req.body.product)
         .then(product => {
             if (!product) {
                 return res.status(404).send({
@@ -72,7 +72,7 @@ router.put('/products/:id', auth, (req, res, next) => {
                     message: `product does not exist`
                 })
             }
-            return product.update(req.body)
+            return product.update(req.body.product)
                 .then(product => res.send(product))
         })
         .catch(error => next(error))

@@ -9,35 +9,35 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       street_name: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       house_number: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       zipcode: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       city: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       comments: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       delivery_time: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       status: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       payment_id: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       createdAt: {

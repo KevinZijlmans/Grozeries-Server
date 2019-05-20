@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const Product = require('./model')
-const Shop = require('../shops/model')
+
+const Product = require('../models').Product;
 
 const router = new Router()
 
@@ -19,20 +19,6 @@ router.post('/shops/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-// router.get('/shops/:id/products', (req, res, next) => {
-//     Product
-//         .findAll({ include: [Shop] })
-//         .then(products => {
-//             res.send(products)
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: 'Something went wrong',
-//                 error: err
-//             })
-//         })
-// })
-
 router.get('/products/categories', (req, res, next) => {
     Product
         .findAll()
@@ -47,7 +33,7 @@ router.get('/products/categories', (req, res, next) => {
         })
 })
 
-router.get('/shops/:id/products/:productid', (req, res, next) => {
+router.get('/products/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -61,7 +47,7 @@ router.get('/shops/:id/products/:productid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/products/categories/:catid', (req, res, next) => {
+router.get('/products/categories/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -75,7 +61,7 @@ router.get('/products/categories/:catid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.put('/shops/:id/products/:productid', (req, res, next) => {
+router.put('/products/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -90,7 +76,7 @@ router.put('/shops/:id/products/:productid', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.delete('/shops/:id/products/:productid', (req, res, next) => {
+router.delete('/products/:id', (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {

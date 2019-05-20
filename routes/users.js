@@ -34,7 +34,7 @@ router.get("/users/:id", auth, (req, res, next) => {
         .catch(error => next(error));
 });
 
-router.get("/users/sellers", (req, res, next) => {
+router.get("/users/sellers", auth, (req, res, next) => {
     User.findAll({ where: { user_type: "Seller" } })
         .then(users => {
             res.json({ users: users });
@@ -47,7 +47,7 @@ router.get("/users/sellers", (req, res, next) => {
         });
 });
 
-router.get("/users/customers", (req, res, next) => {
+router.get("/users/customers", auth, (req, res, next) => {
     User.findAll({ where: { user_type: "Customer" } })
         .then(users => {
             res.json({ users: users });
@@ -60,7 +60,7 @@ router.get("/users/customers", (req, res, next) => {
         });
 });
 
-router.get("/users/drivers", (req, res, next) => {
+router.get("/users/drivers", auth, (req, res, next) => {
     User.findAll({ where: { user_type: "Driver" } })
         .then(users => {
             res.json({ users: users });

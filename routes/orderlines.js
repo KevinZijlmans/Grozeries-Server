@@ -1,6 +1,8 @@
 const { Router } = require('express')
 const Orderline = require('../models').Orderline
 const Order = require('../models').Order
+const auth = require('../authorization/middleware')
+const Product = require('../models').Product
 
 const router = new Router()
 
@@ -37,4 +39,27 @@ router.post('/orders/:id', (req, res, next) => {
     }})
 })
 
+router.get('/orders/:id/orderlines', (req, res, next) => {
+    Order
+        .findByPk(req.params.id)
+        .then(order => {
+            if (!order) {
+                return res.status(404).send({
+                    message: `order does not exist`
+                })
+            }
+        
+            Orderline
+        .findAll({where: {OrderId: order.id}, include: [Product] })
+        .then(orderlines => {
+            res.send(orderlines)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: 'Something went wrong',
+                error: err
+            })
+        })
+    })
+})
 module.exports = router

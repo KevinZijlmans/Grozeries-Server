@@ -2,10 +2,11 @@ const { Router } = require('express')
 const mollie = require('@mollie/api-client')({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
 const Order = require('../models').Order
 const Orderline = require('../models').Orderline
+const auth = require('../authorization/middleware')
 
 const router = new Router()
 
-router.post('/orders', (req, res, next) => {
+router.post('/orders', auth, (req, res, next) => {
     Order
         .create(req.body)
         .then(order => {
@@ -25,7 +26,7 @@ router.post('/orders', (req, res, next) => {
             })
 })
 
-router.get('/orders', (req, res, next) => {
+router.get('/orders', auth, (req, res, next) => {
     Order
         .findAll()
         .then(orders => {
@@ -39,7 +40,7 @@ router.get('/orders', (req, res, next) => {
         })
 })
 
-router.get('/orders/:id', (req, res, next) => {
+router.get('/orders/:id', auth, (req, res, next) => {
     Order
         .findByPk(req.params.id, { include: [Orderline] })
         .then(order => {
@@ -53,7 +54,7 @@ router.get('/orders/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.put('/orders/:id', (req, res, next) => {
+router.put('/orders/:id', auth, (req, res, next) => {
     Order
         .findByPk(req.params.id)
         .then(order => {
@@ -68,7 +69,7 @@ router.put('/orders/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.post('/orders/:id/payments', (req, res, next) => {
+router.post('/orders/:id/payments', auth, (req, res, next) => {
     const orderId = req.params.id
     // const orderAmount = req.payment_amount
     const orderAmount = '100'

@@ -79,7 +79,7 @@ router.put('/orders/:id', auth, (req, res, next) => {
 
 router.post('/orders/:id/payments', (req, res, next) => {
     const orderId = req.params.id
-    // const orderAmount = req.payment_amount
+    const orderAmount = req.payment_amount
     const orderAmount = '100'
     Order
     .findByPk(orderId)
@@ -100,14 +100,13 @@ router.post('/orders/:id/payments', (req, res, next) => {
     mollie.payments
         .create({
             "amount": {
-                "value": "13.00",
+                "value": `${orderAmount}`,
                 "currency": "EUR"
             },
-            "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: ${orderAmount}`,
+            "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: 
+            ${orderAmount}`,
             "redirectUrl": `http://localhost:3000/orders/thank-you/`,
-            // "webhookUrl":  `http://localhost:4000/payments/${orderId}/webhook/`,
-            "webhookUrl":  "http://albertsm.it/",
-            "method": "ideal"
+            "webhookUrl":  `http://localhost:4000/orders/${orderId}/webhook/`,
             })
         .then((payment) => {
             // console.log(payment)
@@ -120,12 +119,12 @@ router.post('/orders/:id/payments', (req, res, next) => {
             return payment.getPaymentUrl()
             })
         .catch((err) => {
-            console.log("ERROR: ",err)
+            console.log("ERROR OCCURRED: ",err)
             // Handle the error
             });
 })
 
-router.post(`orders/:id/webhook/`, auth, (req, res, next) => {
+router.post(`orders/:id/webhook/`, auth, (req, res) => {
 (async () => {
     const orderId = req.params.id
     const mollieClient = mollie({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
@@ -147,8 +146,8 @@ router.post(`orders/:id/webhook/`, auth, (req, res, next) => {
         console.log(`Payment is not paid, but instead it is: ${payment.status}`);
       }
     } 
-    catch (e) {
-      console.log(e);
+    catch (err) {
+      console.log("ERROR OCCURRED:", err);
     }
   })
 });

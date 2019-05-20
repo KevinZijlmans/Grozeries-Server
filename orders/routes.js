@@ -127,29 +127,38 @@ router.post('/orders/:id/payments', (req, res, next) => {
 
 router.post('/orders/:id/webhook/', async (req, res) => {
     // console.log("body id: ",req.body.id)
+    const orderId = req.params.id
+    console.log("orderIds is:",orderId)
     try {
-        const orderId = req.params.id
         // const mollieClient = mollie({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
         const payment = await mollie.payments.get(req.body.id);
     //   const payment = await mollieClient.payments.get(id);
       // Check if payment is paid - the response of the webhook has as a response an id unique to that payment, e.g. id=tr_d0b0E3EA3v
       const isPaid = payment.isPaid();
+      console.log("is fucking paid man",isPaid)
       
-      if (isPaid) {
-        Order
-        .findByPk(orderId)
-        .then(order => order.payment_ok = true)
-         console.log("Order 1 changed payment ok to true", order)
-        .save()
-        return res.status(200).send({
-            message: `Order payment OK. With payment status: ${payment.status}`
+      if (!isPaid) {
+          Order
+          .findByPk(orderId)
+          .then((order) => {
+            if (!order) {
+                return res.status(404).send({
+                    message: `order does not exist`
+                }) 
+            } order.payment_ok = true
+            console.log("Order 1 changed payment started to true", order)
+            console.log("mollie payment", payment)
+            console.log("mollie payment is paid?", isPaid)
+            console.log("no, but the mollie payment status is:", payment.status)  
+            console.log('Payment is paid');
+            order.save()
+            return res.status(200).send({
+                message: `Order is paid!`
+            })
         })
-    }
-        else {
-        console.log("mollie payment", payment)
-        console.log("mollie payment is paid?", isPaid)
-        console.log("no, but the mollie payment status is:", payment.status)  
-        console.log('Payment is paid');
+        //   .then(order => console.log("Order 1 changed payment ok to true", order.payment_ok))
+        }
+    else {
         return res.status(404).send({
             message: `Payment is not paid, but instead it is: ${payment.status}`
         })

@@ -130,12 +130,8 @@ router.post('/orders/:id/webhook/', async (req, res) => {
     const orderId = req.params.id
     console.log("orderIds is:",orderId)
     try {
-        // const mollieClient = mollie({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
-        const payment = await mollie.payments.get(req.body.id);
-    //   const payment = await mollieClient.payments.get(id);
-      // Check if payment is paid - the response of the webhook has as a response an id unique to that payment, e.g. id=tr_d0b0E3EA3v
-      const isPaid = payment.isPaid();
-      console.log("is fucking paid man",isPaid)
+    const payment = await mollie.payments.get(req.body.id);
+    const isPaid = payment.isPaid();
       
       if (!isPaid) {
           Order

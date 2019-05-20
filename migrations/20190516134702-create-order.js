@@ -47,7 +47,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       total_price: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       }
     });

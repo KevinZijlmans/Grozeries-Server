@@ -91,7 +91,7 @@ router.post('/orders/:id/payments', (req, res, next) => {
         } order.payment_started = true
         console.log("Order 1 changed payment started to true", order)
         order.save()
-        return res.status(200).send({
+        res.status(200).send({
             message: `Order payment initiated`
         })
     })
@@ -101,7 +101,7 @@ router.post('/orders/:id/payments', (req, res, next) => {
         .create({
             "amount": {
                 // "value": `${orderAmount}`,
-                "value": "16.00",
+                "value": "18.00",
                 "currency": "EUR"
             },
             "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: 
@@ -115,13 +115,13 @@ router.post('/orders/:id/payments', (req, res, next) => {
                 return res.status(404).send({
                     message: `Mollie payment does not exist`
                 })
-            }
-            // console.log("URL-URL",payment.getPaymentUrl())
-            return payment.getPaymentUrl()
-            })
+            } 
+            console.log("URL-URL",payment.getPaymentUrl())
+            const redirectPayUrl = payment.getPaymentUrl()
+            return redirectPayUrl
+        })
         .catch((err) => {
             console.log("ERROR OCCURRED: ",err)
-            // Handle the error
             });
 })
 
@@ -152,8 +152,7 @@ router.post('/orders/:id/webhook/', async (req, res) => {
                 message: `Order is paid!`
             })
         })
-        //   .then(order => console.log("Order 1 changed payment ok to true", order.payment_ok))
-        }
+    }
     else {
         return res.status(404).send({
             message: `Payment is not paid, but instead it is: ${payment.status}`

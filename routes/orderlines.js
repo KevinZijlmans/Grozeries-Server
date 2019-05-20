@@ -1,6 +1,9 @@
 const { Router } = require('express')
 const Orderline = require('../models').Orderline
 const totalSum = require('../logic')
+const sequelize = require('../db')
+
+
 const router = new Router()
 
 router.post('/orders/:id', async (req, res, next) => {
@@ -14,24 +17,26 @@ router.post('/orders/:id', async (req, res, next) => {
     return sequelize.transaction(t => {
 
         return Orderline
-            .create({ quantity, price, ProductId, OrderId })
+            .create({ quantity, price, ProductId, OrderId }, { transaction: t })
             .then(orderline => {
-                if (!orderline) {
-                    return res.status(404).send({
-                        message: `orderline does not exist`
-                    })
-                }
-                return orderline.settotal_price
-
                 const total = totalSum(orderline)
                 console.log('total', total)
                 orderline.total_price = total
                 console.log('total_price', orderline.total_price)
-                orderline.save()
+
+                if (!orderline) {
+                    res.status(404).send({
+                        message: `orderline does not exist`
+                    })
+                }
+                orderline.create({
+                    total_price: total
+                }, { transaction: t })
+
+
                 return res.status(201).send(orderline)
 
             })
-            // .then(i => { return orderline.update(total_price).send(orderline) })
             .catch(err => {
                 res.status(500).send({
                     message: 'Something went wrong',
@@ -39,5 +44,6 @@ router.post('/orders/:id', async (req, res, next) => {
                 })
             })
     })
+})
 
-    module.exports = router
+module.exports = router

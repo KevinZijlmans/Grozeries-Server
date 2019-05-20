@@ -34,7 +34,7 @@ router.post('/orders', auth, (req, res, next) => {
 
 })
 
-router.get('/orders', auth, (req, res, next) => {
+router.get('/orders', (req, res, next) => {
     Order
         .findAll({ include: [Orderline] })
         .then(orders => {
@@ -79,7 +79,7 @@ router.put('/orders/:id', auth, (req, res, next) => {
 
 router.post('/orders/:id/payments', (req, res, next) => {
     const orderId = req.params.id
-    const orderAmount = req.payment_amount
+    // const orderAmount = req.payment_amount
     const orderAmount = '100'
     Order
     .findByPk(orderId)
@@ -100,16 +100,17 @@ router.post('/orders/:id/payments', (req, res, next) => {
     mollie.payments
         .create({
             "amount": {
-                "value": `${orderAmount}`,
+                // "value": `${orderAmount}`,
+                "value": "16.00",
                 "currency": "EUR"
             },
             "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: 
             ${orderAmount}`,
-            "redirectUrl": `http://localhost:3000/orders/thank-you/`,
-            "webhookUrl":  `http://localhost:4000/orders/${orderId}/webhook/`,
+            "redirectUrl": `https://52965898.ngrok.io/orders/`,
+            "webhookUrl":  `https://52965898.ngrok.io/orders/${orderId}/webhook/`
             })
         .then((payment) => {
-            // console.log(payment)
+            console.log("Payment created and Sent to mollie:", payment)
             if (!payment) {
                 return res.status(404).send({
                     message: `Mollie payment does not exist`
@@ -124,33 +125,40 @@ router.post('/orders/:id/payments', (req, res, next) => {
             });
 })
 
-router.post(`orders/:id/webhook/`, auth, (req, res) => {
-(async () => {
-    const orderId = req.params.id
-    const mollieClient = mollie({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
-  
+router.post('/orders/:id/webhook/', async (req, res) => {
+    // console.log("body id: ",req.body.id)
     try {
-      const payment = await mollieClient.payments.get(res);
+        const orderId = req.params.id
+        // const mollieClient = mollie({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
+        const payment = await mollie.payments.get(req.body.id);
+    //   const payment = await mollieClient.payments.get(id);
       // Check if payment is paid - the response of the webhook has as a response an id unique to that payment, e.g. id=tr_d0b0E3EA3v
       const isPaid = payment.isPaid();
-  
+      
       if (isPaid) {
-        console.log('Payment is paid');
         Order
         .findByPk(orderId)
         .then(order => order.payment_ok = true)
          console.log("Order 1 changed payment ok to true", order)
         .save()
+        return res.status(200).send({
+            message: `Order payment OK. With payment status: ${payment.status}`
+        })
     }
         else {
-        console.log(`Payment is not paid, but instead it is: ${payment.status}`);
+        console.log("mollie payment", payment)
+        console.log("mollie payment is paid?", isPaid)
+        console.log("no, but the mollie payment status is:", payment.status)  
+        console.log('Payment is paid');
+        return res.status(404).send({
+            message: `Payment is not paid, but instead it is: ${payment.status}`
+        })
       }
-    } 
+    }
     catch (err) {
       console.log("ERROR OCCURRED:", err);
     }
   })
-});
 
 module.exports = router
 

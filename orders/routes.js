@@ -106,7 +106,7 @@ router.post('/orders/:id/payments', (req, res, next) => {
             },
             "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: 
             ${orderAmount}`,
-            "redirectUrl": `https://52965898.ngrok.io/orders/`,
+            "redirectUrl": `https://52965898.ngrok.io/thank-you/`,
             "webhookUrl":  `https://52965898.ngrok.io/orders/${orderId}/webhook/`
             })
         .then((payment) => {

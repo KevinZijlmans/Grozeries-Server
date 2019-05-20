@@ -1,5 +1,4 @@
 const User = require('../models/user')
-
 const { toData } = require('./jwt')
 
 function auth(req, res, next) {
@@ -17,17 +16,17 @@ function auth(req, res, next) {
         })
         .catch(next)
     }
-    catch (error) {
+     catch (error) {
+       res.status(400).send({
+         message: `Error ${error.name}: ${error.message}`
+       })
+     }
+   }
+    else {
       res.status(401).send({
         message: 'Please supply some valid credentials'
-      })
+       })
     }
-  }
-  else {
-    res.status(400).send({
-      message: `Error ${error.name}: ${error.message}`
-    })
-  }
-}
+   }
 
 module.exports = auth

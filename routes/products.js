@@ -4,10 +4,10 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops/:id', auth, (req, res, next) => {
+router.post('/shops/:id', (req, res, next) => {
 
     Product
-        .create(req.body.product)
+        .create(req.body)
         .then(product => {
             if (!product) {
                 return res.status(404).send({

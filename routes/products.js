@@ -1,13 +1,13 @@
 const { Router } = require('express')
-
-const Product = require('../models').Product;
+const Product = require('./models').Product
+const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops/:id', (req, res, next) => {
+router.post('/shops/:id', auth, (req, res, next) => {
 
     Product
-        .create(req.body)
+        .create(req.body.product)
         .then(product => {
             if (!product) {
                 return res.status(404).send({
@@ -61,7 +61,7 @@ router.get('/products/categories/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.put('/products/:id', (req, res, next) => {
+router.put('/products/:id', auth, (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {
@@ -76,7 +76,7 @@ router.put('/products/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.delete('/products/:id', (req, res, next) => {
+router.delete('/products/:id', auth, (req, res, next) => {
     Product
         .findByPk(req.params.id)
         .then(product => {

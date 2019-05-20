@@ -1,6 +1,5 @@
 const { Router } = require('express')
 const mollie = require('@mollie/api-client')({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
-
 const Order = require('../models').Order
 const Orderline = require('../models').Orderline
 

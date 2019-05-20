@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const mollie = require('@mollie/api-client')({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
-const Order = require('../models').Order
-const Orderline = require('../models').Orderline
+const Order = require('../models').order
+const Orderline = require('../models').orderline
 const auth = require('../authorization/middleware')
 
 const router = new Router()
@@ -17,13 +17,13 @@ router.post('/orders', auth, (req, res, next) => {
             }
             return res.status(201).send(order)
 
-                })
-            .catch(err => {
-                res.status(500).send({
-                    message: 'Something went wrong',
-                    error: err
-                })
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: 'Something went wrong',
+                error: err
             })
+        })
 })
 
 router.get('/orders', auth, (req, res, next) => {
@@ -74,21 +74,21 @@ router.post('/orders/:id/payments', auth, (req, res, next) => {
     // const orderAmount = req.payment_amount
     const orderAmount = '100'
     Order
-    .findByPk(orderId)
-    .then((order) => {
-        if (!order) {
-            return res.status(404).send({
-                message: `order does not exist`
-            }) 
-        } order.payment_started = true
-        console.log("Order 1 changed payment started to true", order)
-        order.save()
-        return res.status(200).send({
-            message: `Order payment initiated`
+        .findByPk(orderId)
+        .then((order) => {
+            if (!order) {
+                return res.status(404).send({
+                    message: `order does not exist`
+                })
+            } order.payment_started = true
+            console.log("Order 1 changed payment started to true", order)
+            order.save()
+            return res.status(200).send({
+                message: `Order payment initiated`
+            })
         })
-    })
-    .catch(error => next(error))
-    
+        .catch(error => next(error))
+
     mollie.payments
         .create({
             "amount": {
@@ -98,9 +98,9 @@ router.post('/orders/:id/payments', auth, (req, res, next) => {
             "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: ${orderAmount}`,
             "redirectUrl": `http://localhost:3000/orders/thank-you/`,
             // "webhookUrl":  `http://localhost:4000/payments/${orderId}/webhook/`,
-            "webhookUrl":  "http://albertsm.it/",
+            "webhookUrl": "http://albertsm.it/",
             "method": "ideal"
-            })
+        })
         .then((payment) => {
             // console.log(payment)
             if (!payment) {
@@ -110,11 +110,11 @@ router.post('/orders/:id/payments', auth, (req, res, next) => {
             }
             // console.log("URL-URL",payment.getPaymentUrl())
             return payment.getPaymentUrl()
-            })
+        })
         .catch((err) => {
-            console.log("ERROR: ",err)
+            console.log("ERROR: ", err)
             // Handle the error
-            });
+        });
 })
 
 module.exports = router

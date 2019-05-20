@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Orderlines', {
+    return queryInterface.createTable('orderlines', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -24,17 +24,17 @@ module.exports = {
         defaultValue: new Date(),
         type: Sequelize.DATE
       },
-      ProductId: {
+      productId: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      OrderId: {
+      orderId: {
         allowNull: false,
         type: Sequelize.INTEGER
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Orderlines');
+    return queryInterface.dropTable('orderlines');
   }
 };

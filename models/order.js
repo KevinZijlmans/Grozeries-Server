@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {
+  const Order = sequelize.define('order', {
     street_name: DataTypes.STRING,
     house_number: DataTypes.STRING,
     zipcode: DataTypes.STRING,
@@ -9,15 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     delivery_time: DataTypes.DATE,
     status: DataTypes.STRING,
     payment_id: DataTypes.INTEGER,
-    UserId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     payment_amount: DataTypes.STRING,
     payment_started: DataTypes.BOOLEAN,
     payment_ok: DataTypes.BOOLEAN,
   }, {});
 
   Order.associate = function (models) {
-    Order.belongsTo(models.User)
-    Order.hasMany(models.Orderline)
+    Order.belongsTo(models.user)
+    Order.hasMany(models.orderline)
 
   };
   return Order;

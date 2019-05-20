@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const Shop = require('../models').Shop
-const Product = require('../models').Product
+const Shop = require('../models').shop
+const Product = require('../models').product
 const auth = require("../authorization/middleware")
 
 

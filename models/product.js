@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Product = sequelize.define('Product', {
+  const Product = sequelize.define('product', {
     product_name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     description: DataTypes.STRING,
@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     in_stock: DataTypes.BOOLEAN,
     image: DataTypes.STRING,
-    ShopId: DataTypes.INTEGER
+    shopId: DataTypes.INTEGER
   }, {});
   Product.associate = function (models) {
-    Product.hasMany(models.Orderline)
-    Product.belongsTo(models.Shop)
+    Product.hasMany(models.orderline)
+    Product.belongsTo(models.shop)
   };
   return Product;
 };

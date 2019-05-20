@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "serve": "npm run postinstall && node index.js",
-    "postinstall": "node ."
+    "start": "node ."
   },
   "keywords": [],
   "author": "",

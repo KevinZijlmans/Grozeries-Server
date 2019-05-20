@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const Product = require('./models').Product
+const Product = require('../models').Product
 const auth = require("../authorization/middleware")
 
 const router = new Router()

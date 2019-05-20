@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "serve": "npm run postinstall && node index.js",
-    "postinstall": "node ."
+    "postinstall": "node .",
+    "serve": "npm run postinstall && node index.js"
   },
   "keywords": [],
   "author": "",

@@ -38,16 +38,25 @@ router.get('/shops/bypage/:page', auth, (req, res, next) => {
         .catch(error => next(error))
     })
 
-router.get('/shops/:id', (req, res, next) => {
+router.get('/shops/:id/:page', (req, res, next) => {
+    
+    const page = req.params.page
+    const pageSize = 4
+    const offset = req.query.offset || (page - 1) * pageSize
+    const limit = req.query.limit || pageSize
+
     Shop
-        .findByPk(req.params.id, { include: [Product] })
+        .findByPk(req.params.id)
         .then(shop => {
             if (!shop) {
                 return res.status(404).send({
                     message: `shop does not exist`
                 })
             }
-            return res.send(shop)
+            shop.getProducts({limit, offset})
+         .then(products => {
+            res.send({...shop.dataValues, products})
+          })
         })
         .catch(error => next(error))
 })

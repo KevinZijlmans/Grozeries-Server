@@ -3,6 +3,7 @@ const Orderline = require('../models').orderline
 const Order = require('../models').order
 const auth = require('../authorization/middleware')
 const Product = require('../models').product
+const totalSum = require('../logic')
 
 const router = new Router()
 
@@ -25,9 +26,9 @@ router.post('/orders/:id', (req, res, next) => {
                 Orderline
                     .create({ quantity, price, productId, orderId, total_price })
                     .then(orderline => {
-                        // const total = totalSum(orderline)
-                        // console.log('total', total)
-                        // orderline.total_price = total
+                        const total = totalSum(orderline)
+                        console.log('total', total)
+                        orderline.total_price = total
 
 
                         if (!orderline) {
@@ -35,8 +36,8 @@ router.post('/orders/:id', (req, res, next) => {
                                 message: `orderline does not exist`
                             })
                         }
-                        // console.log('orderline.total_price', orderline.total_price)
-                        // orderline.save({ total_price: total })
+                        console.log('orderline.total_price', orderline.total_price)
+                        orderline.save({ total_price: total })
                         return res.status(201).send(orderline)
                     })
                     .catch(err => {

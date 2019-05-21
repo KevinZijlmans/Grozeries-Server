@@ -4,10 +4,30 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops/:id', auth, (req, res, next) => {
 
+router.post('/shops/:id', auth, (req, res, next) => {
+const shopId = req.params.id
+const product_name = req.body.product_name
+const price = req.body.price
+const description = req.body.description
+const ingredients = req.body.ingredients
+const allergens = req.body.allergens
+const prices_by = req.body.prices_by
+const quantity = req.body.quantity
+const in_stock = req.body.in_stock
+const image = req.body.image
     Product
-        .create(req.body)
+        .create({product_name, 
+                price, 
+                description, 
+                ingredients, 
+                allergens, 
+                prices_by, 
+                quantity, 
+                in_stock, 
+                image,
+                shopId
+            })
         .then(product => {
             if (!product) {
                 return res.status(404).send({

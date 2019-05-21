@@ -31,6 +31,10 @@ module.exports = {
       orderId: {
         allowNull: false,
         type: Sequelize.INTEGER
+      },
+      total_price: {
+        allowNull: true,
+        type: Sequelize.INTEGER
       }
     });
   },

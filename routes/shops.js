@@ -31,12 +31,12 @@ router.get('/shops', (req, res, next) => {
         Shop.findAll()
       ])
         .then(([total, shops]) => {
-          res.send({
-            shops, total
-          })
+            res.send({
+                shops, total
+            })
         })
         .catch(error => next(error))
-    })
+})
 
 router.get('/shops/:id', (req, res, next) => {
     

@@ -7,25 +7,30 @@ const { totalSum } = require('../logic')
 
 const router = new Router()
 
-router.post('/orders/:id', auth, (req, res, next) => {
+router.post('/orders/:id', (req, res, next) => {
+    console.log("req at orders/1:", req.body)
     const quantity = req.body.quantity
     const price = req.body.price
     const productId = req.body.productId
     const orderId = req.params.id
+    const userId = req.body.userId
+    const shopId = req.body.shopId
+    const status = req.body.status
     const total_price = req.body.total_price
 
-    Order
-        .findByPk(req.params.id)
-        .then(order => {
-            if (!order) {
-                return res.status(404).send({
-                    message: `order does not exist`
-                })
-            }
-            else {
+    // Order
+        // .findByPk(req.params.id)
+        // .then(order => {
+            // if (!order) {
+            //     return res.status(404).send({
+            //         message: `order does not exist`
+            //     })
+            // }
+            // else {
                 Orderline
-                    .create({ quantity, price, productId, orderId, total_price })
+                    .create({ quantity, price, productId, orderId, total_price, userId, shopId, status })
                     .then(orderline => {
+                        console.log("orderline BITCH", orderline)
                         const total = totalSum(orderline)
                         orderline.total_price = total
 
@@ -45,8 +50,8 @@ router.post('/orders/:id', auth, (req, res, next) => {
                         })
                     })
             }
-        })
-})
+//         })
+)
 
 router.get('/orders/:id/orderlines', auth, (req, res, next) => {
     Order

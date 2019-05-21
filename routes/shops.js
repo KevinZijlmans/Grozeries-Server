@@ -7,7 +7,6 @@ const auth = require("../authorization/middleware")
 const router = new Router()
 
 router.post('/shops',  (req, res, next) => {
-
     Shop
         .create(req.body)
         .then(shop => {
@@ -21,7 +20,7 @@ router.post('/shops',  (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/shops/bypage/:page', auth, (req, res, next) => {
+router.get('/shops/:page', (req, res, next) => {
     const page = req.params.page
     const pageSize = 6
     const offset = req.query.offset || (page - 1) * pageSize

@@ -4,7 +4,7 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops/:id', auth, (req, res, next) => {
+router.post('/shops/:id', (req, res, next) => {
 
     Product
         .create(req.body)

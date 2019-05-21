@@ -27,18 +27,21 @@ router.post('/orders', auth, (req, res, next) => {
 })
 
 router.get('/orders', auth, (req, res, next) => {
-    Order
-        .findAll()
-        .then(orders => {
-            res.send(orders)
+    const page = req.params.page
+    const pageSize = 10
+    const offset = req.query.offset || (page - 1) * pageSize
+    const limit = req.query.limit || pageSize
+    Promise.all([
+        Order.count(),
+        Order.findAll({ limit, offset })
+      ])
+        .then(([total, orders]) => {
+          res.send({
+            orders, total
+          })
         })
-        .catch(err => {
-            res.status(500).send({
-                message: 'Something went wrong',
-                error: err
-            })
-        })
-})
+        .catch(error => next(error))
+    })
 
 router.get('/orders/:id', auth, (req, res, next) => {
     Order

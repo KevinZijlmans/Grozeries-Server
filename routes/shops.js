@@ -6,7 +6,7 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops', auth,  (req, res, next) => {
+router.post('/shops', auth, (req, res, next) => {
 
     Shop
         .create(req.body)
@@ -23,24 +23,36 @@ router.post('/shops', auth,  (req, res, next) => {
 
 router.get('/shops', (req, res, next) => {
 
+    Shop
+        .findAll()
+        .then(shops => {
+            res.send(shops)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: 'Something went wrong',
+                error: err
+            })
+        })
+
     // const page = req.params.page
     // const pageSize = 6
     // const offset = req.query.offset || (page - 1) * pageSize
     // const limit = req.query.limit || pageSize
-    Promise.all([
-        Shop.count(),
-        Shop.findAll()
-      ])
-        .then(([total, shops]) => {
-            res.send({
-                shops, total
-            })
-        })
+    // Promise.all([
+    //     Shop.count(),
+    //     Shop.findAll()
+    //   ])
+    //     .then(([total, shops]) => {
+    //         res.send({
+    //             shops, total
+    //         })
+    //     })
 })
 
 router.get('/shops/:id', (req, res, next) => {
 
-    
+
     // const page = req.params.page
     // const pageSize = 4
     // const offset = req.query.offset || (page - 1) * pageSize
@@ -56,9 +68,9 @@ router.get('/shops/:id', (req, res, next) => {
             }
 
             shop.getProducts()
-         .then(products => {
-            res.send({...shop.dataValues, products})
-          })
+                .then(products => {
+                    res.send({ ...shop.dataValues, products })
+                })
         })
         .catch(error => next(error))
 })

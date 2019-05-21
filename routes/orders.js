@@ -3,10 +3,11 @@ const mollie = require('@mollie/api-client')({ apiKey: 'test_qcMAbRrhuVzzkVaR6DR
 const Order = require('../models').order
 const Orderline = require('../models').orderline
 const auth = require('../authorization/middleware')
+const { paymentAmount } = require('../logic')
 
 const router = new Router()
 
-router.post('/orders', auth, (req, res, next) => {
+router.post('/orders', (req, res, next) => {
     Order
         .create(req.body)
         .then(order => {
@@ -43,7 +44,7 @@ router.get('/orders', auth, (req, res, next) => {
         .catch(error => next(error))
     })
 
-router.get('/orders/:id', auth, (req, res, next) => {
+router.get('/orders/:id', (req, res, next) => {
     Order
         .findByPk(req.params.id, { include: [Orderline] })
         .then(order => {
@@ -52,7 +53,16 @@ router.get('/orders/:id', auth, (req, res, next) => {
                     message: `order does not exist`
                 })
             }
-            return res.send(order)
+            Orderline
+                .findAll()
+                .then(orderlines => {
+
+                    const amount = paymentAmount(order, orderlines)
+                    order.payment_amount = amount
+                    order.save({ payment_amount: amount })
+
+                    return res.send(order)
+                })
         })
         .catch(error => next(error))
 })

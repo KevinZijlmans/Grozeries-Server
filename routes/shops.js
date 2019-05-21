@@ -21,7 +21,7 @@ router.post('/shops', auth, (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/shops/bypage/:page', auth, (req, res, next) => {
+router.get('/shops/bypage/:page', (req, res, next) => {
     const page = req.params.page
     const pageSize = 6
     const offset = req.query.offset || (page - 1) * pageSize

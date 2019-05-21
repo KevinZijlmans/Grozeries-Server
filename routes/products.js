@@ -16,7 +16,7 @@ const quantity = req.body.quantity
 const in_stock = req.body.in_stock
 const image = req.body.image
     Product
-        .create(product_name, 
+        .create({product_name, 
                 price, 
                 description, 
                 ingredients, 
@@ -25,6 +25,7 @@ const image = req.body.image
                 quantity, 
                 in_stock, 
                 image,
+                shopId}
                 )
         .then(product => {
             if (!product) {

@@ -31,7 +31,12 @@ module.exports = {
       OrderId: {
         allowNull: false,
         type: Sequelize.INTEGER
+      },
+      total_price: {
+        allowNull: true,
+        type: Sequelize.INTEGER
       }
+
     });
   },
   down: (queryInterface, Sequelize) => {

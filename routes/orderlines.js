@@ -11,17 +11,12 @@ router.post('/orders/:id', async (req, res, next) => {
     const OrderId = req.params.id
     const total_price = req.body.total_price
 
-    console.log('req.body', req.body)
-
-    // req.body.password = passwordHash;
-    // User.create(req.body)
-
     Orderline
         .create({ quantity, price, ProductId, OrderId, total_price })
         .then(orderline => {
             const total = totalSum(orderline)
             console.log('total', total)
-            // orderline.total_price = total
+            orderline.total_price = total
             // console.log('total_price', orderline.total_price)
 
             if (!orderline) {
@@ -29,10 +24,8 @@ router.post('/orders/:id', async (req, res, next) => {
                     message: `orderline does not exist`
                 })
             }
-            else {
-                req.body.total_price = total
-                orderline.create(req.body)
-            }
+            console.log('orderline.total_price', orderline.total_price)
+            orderline.save({ total_price: total })
 
             return res.status(201).send(orderline)
 
@@ -46,34 +39,3 @@ router.post('/orders/:id', async (req, res, next) => {
 })
 
 module.exports = router
-
-// return sequelize.transaction(t => {
-
-//     return Orderline
-//         .create({ quantity, price, ProductId, OrderId }, { transaction: t })
-//         .then(orderline => {
-//             const total = totalSum(orderline)
-//             console.log('total', total)
-//             orderline.total_price = total
-//             console.log('total_price', orderline.total_price)
-
-//             if (!orderline) {
-//                 res.status(404).send({
-//                     message: `orderline does not exist`
-//                 })
-//             }
-//             orderline.create({
-//                 total_price: total
-//             }, { transaction: t })
-
-
-//             return res.status(201).send(orderline)
-
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: 'Something went wrong',
-//                 error: err
-//             })
-//         })
-// })

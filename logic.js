@@ -17,4 +17,5 @@ function paymentAmount(order, orderlines) {
     return sum
 }
 
+
 module.exports = { totalSum, paymentAmount }

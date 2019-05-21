@@ -5,11 +5,13 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     productId: DataTypes.INTEGER,
     orderId: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    status: DataTypes.STRING,
+    shopId: DataTypes.INTEGER
   }, {});
   Orderline.associate = function (models) {
     Orderline.belongsTo(models.product)
     Orderline.belongsTo(models.order)
+    Orderline.belongsTo(models.shop)
   };
   return Orderline;
 };

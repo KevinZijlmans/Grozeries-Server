@@ -3,6 +3,7 @@ const mollie = require('@mollie/api-client')({ apiKey: 'test_qcMAbRrhuVzzkVaR6DR
 const Order = require('../models').order
 const Orderline = require('../models').orderline
 const auth = require('../authorization/middleware')
+const { paymentAmount } = require('../logic')
 
 const router = new Router()
 
@@ -49,7 +50,16 @@ router.get('/orders/:id', auth, (req, res, next) => {
                     message: `order does not exist`
                 })
             }
-            return res.send(order)
+            Orderline
+                .findAll()
+                .then(orderlines => {
+
+                    const amount = paymentAmount(order, orderlines)
+                    order.payment_amount = amount
+                    order.save({ payment_amount: amount })
+
+                    return res.send(order)
+                })
         })
         .catch(error => next(error))
 })

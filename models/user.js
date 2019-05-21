@@ -10,10 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     zipcode: DataTypes.STRING,
     city: DataTypes.STRING,
     phonenumber: DataTypes.STRING,
-    user_type: DataTypes.STRING
+    user_type: DataTypes.STRING,
+    orderId: DataTypes.INTEGER
   }, {});
   User.associate = function (models) {
     User.hasMany(models.order)
+    User.hasMany(models.orderline)
   };
   return User;
 };

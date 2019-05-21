@@ -25,8 +25,8 @@ const image = req.body.image
                 quantity, 
                 in_stock, 
                 image,
-                shopId}
-                )
+                shopId
+            })
         .then(product => {
             if (!product) {
                 return res.status(404).send({

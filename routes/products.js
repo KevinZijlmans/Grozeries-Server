@@ -4,7 +4,8 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops/:id', (req, res, next) => {
+
+router.post('/shops/:id', auth, (req, res, next) => {
 const shopId = req.params.id
 const product_name = req.body.product_name
 const price = req.body.price

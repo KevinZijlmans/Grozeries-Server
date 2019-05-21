@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     orderId: DataTypes.INTEGER,
     status: DataTypes.STRING,
     shopId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    total_price: DataTypes.INTEGER
+
   }, {});
   Orderline.associate = function (models) {
     Orderline.belongsTo(models.product)

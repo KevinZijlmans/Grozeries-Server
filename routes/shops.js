@@ -21,42 +21,30 @@ router.post('/shops', auth, (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/shops/bypage/:page', (req, res, next) => {
-    const page = req.params.page
-    const pageSize = 6
-    const offset = req.query.offset || (page - 1) * pageSize
-    const limit = req.query.limit || pageSize
-    Promise.all([
-        Shop.count(),
-        Shop.findAll({ limit, offset })
-    ])
-        .then(([total, shops]) => {
-            res.send({
-                shops, total
+router.get('/shops', (req, res, next) => {
+    Shop
+        .findAll()
+        .then(shops => {
+            res.send(shops)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: 'Something went wrong',
+                error: err
             })
         })
-        .catch(error => next(error))
 })
 
-router.get('/shops/:id/:page', (req, res, next) => {
-
-    const page = req.params.page
-    const pageSize = 4
-    const offset = req.query.offset || (page - 1) * pageSize
-    const limit = req.query.limit || pageSize
-
+router.get('/shops/:id', (req, res, next) => {
     Shop
-        .findByPk(req.params.id)
+        .findByPk(req.params.id, { include: [Product] })
         .then(shop => {
             if (!shop) {
                 return res.status(404).send({
                     message: `shop does not exist`
                 })
             }
-            shop.getProducts({ limit, offset })
-                .then(products => {
-                    res.send({ ...shop.dataValues, products })
-                })
+            return res.send(shop)
         })
         .catch(error => next(error))
 })

@@ -7,7 +7,7 @@ const { paymentAmount } = require('../logic')
 
 const router = new Router()
 
-router.post('/orders', (req, res, next) => {
+router.post('/orders', auth, (req, res, next) => {
     Order
         .create(req.body)
         .then(order => {
@@ -35,16 +35,16 @@ router.get('/orders', auth, (req, res, next) => {
     Promise.all([
         Order.count(),
         Order.findAll({ limit, offset })
-      ])
+    ])
         .then(([total, orders]) => {
-          res.send({
-            orders, total
-          })
+            res.send({
+                orders, total
+            })
         })
         .catch(error => next(error))
-    })
+})
 
-router.get('/orders/:id', (req, res, next) => {
+router.get('/orders/:id', auth, (req, res, next) => {
     Order
         .findByPk(req.params.id, { include: [Orderline] })
         .then(order => {

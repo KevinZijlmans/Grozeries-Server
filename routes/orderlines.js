@@ -7,7 +7,7 @@ const { totalSum } = require('../logic')
 
 const router = new Router()
 
-router.post('/orders/:id', (req, res, next) => {
+router.post('/orders/:id', auth, (req, res, next) => {
     const quantity = req.body.quantity
     const price = req.body.price
     const productId = req.body.productId

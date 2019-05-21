@@ -42,6 +42,21 @@ router.get('/orders', auth, (req, res, next) => {
 
 router.get('/orders/:id', auth, (req, res, next) => {
     Order
+        .findByPk(req.params.userId)
+        .then(orders => orders.find(order.userId === req.user.id))
+        .then(order => {
+            res.send(order)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: 'Something went wrong',
+                error: err
+            })
+        })
+})
+
+router.get('/orders/:id', auth, (req, res, next) => {
+    Order
         .findByPk(req.params.id, { include: [Orderline] })
         .then(order => {
             if (!order) {

@@ -6,7 +6,7 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops',  (req, res, next) => {
+router.post('/shops', auth,  (req, res, next) => {
 
     Shop
         .create(req.body)
@@ -21,14 +21,14 @@ router.post('/shops',  (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/shops/bypage/:page', auth, (req, res, next) => {
-    const page = req.params.page
-    const pageSize = 6
-    const offset = req.query.offset || (page - 1) * pageSize
-    const limit = req.query.limit || pageSize
+router.get('/shops', (req, res, next) => {
+    // const page = req.params.page
+    // const pageSize = 6
+    // const offset = req.query.offset || (page - 1) * pageSize
+    // const limit = req.query.limit || pageSize
     Promise.all([
         Shop.count(),
-        Shop.findAll({ limit, offset })
+        Shop.findAll()
       ])
         .then(([total, shops]) => {
           res.send({
@@ -38,12 +38,12 @@ router.get('/shops/bypage/:page', auth, (req, res, next) => {
         .catch(error => next(error))
     })
 
-router.get('/shops/:id/:page', (req, res, next) => {
+router.get('/shops/:id', (req, res, next) => {
     
-    const page = req.params.page
-    const pageSize = 4
-    const offset = req.query.offset || (page - 1) * pageSize
-    const limit = req.query.limit || pageSize
+    // const page = req.params.page
+    // const pageSize = 4
+    // const offset = req.query.offset || (page - 1) * pageSize
+    // const limit = req.query.limit || pageSize
 
     Shop
         .findByPk(req.params.id)
@@ -53,7 +53,7 @@ router.get('/shops/:id/:page', (req, res, next) => {
                     message: `shop does not exist`
                 })
             }
-            shop.getProducts({limit, offset})
+            shop.getProducts()
          .then(products => {
             res.send({...shop.dataValues, products})
           })

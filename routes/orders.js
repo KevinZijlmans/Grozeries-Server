@@ -27,13 +27,13 @@ router.post('/orders', auth, (req, res, next) => {
 })
 
 router.get('/orders', auth, (req, res, next) => {
-    const page = req.params.page
-    const pageSize = 10
-    const offset = req.query.offset || (page - 1) * pageSize
-    const limit = req.query.limit || pageSize
+    // const page = req.params.page
+    // const pageSize = 10
+    // const offset = req.query.offset || (page - 1) * pageSize
+    // const limit = req.query.limit || pageSize
     Promise.all([
         Order.count(),
-        Order.findAll({ limit, offset })
+        Order.findAll()
       ])
         .then(([total, orders]) => {
           res.send({

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Shop.associate = function (models) {
     Shop.hasMany(models.product)
     Shop.belongsTo(models.user)
-    Shop.hasMany(models.orderlines)
+    Shop.hasMany(models.orderline)
   };
   return Shop;
 };

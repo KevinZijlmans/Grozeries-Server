@@ -21,7 +21,7 @@ router.post('/shops',  (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/shops/page/:page', auth, (req, res, next) => {
+router.get('/shops', auth, (req, res, next) => {
     const page = req.params.page
     const pageSize = 6
     const offset = req.query.offset || (page - 1) * pageSize
@@ -38,7 +38,7 @@ router.get('/shops/page/:page', auth, (req, res, next) => {
         .catch(error => next(error))
     })
 
-router.get('/shops/:id/page/:page', (req, res, next) => {
+router.get('/shops/:id', (req, res, next) => {
     
     const page = req.params.page
     const pageSize = 10

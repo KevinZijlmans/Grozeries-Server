@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     productId: DataTypes.INTEGER,
-    orderId: DataTypes.INTEGER
+    orderId: DataTypes.INTEGER,
+    status: DataTypes.STRING
   }, {});
   Orderline.associate = function (models) {
     Orderline.belongsTo(models.product)

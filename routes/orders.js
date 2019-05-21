@@ -6,7 +6,7 @@ const auth = require('../authorization/middleware')
 
 const router = new Router()
 
-router.post('/orders', auth, (req, res, next) => {
+router.post('/orders', (req, res, next) => {
     Order
         .create(req.body)
         .then(order => {

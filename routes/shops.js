@@ -6,7 +6,7 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops', auth, (req, res, next) => {
+router.post('/shops',  (req, res, next) => {
 
     Shop
         .create(req.body)
@@ -21,19 +21,22 @@ router.post('/shops', auth, (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.get('/shops', (req, res, next) => {
-    Shop
-        .findAll()
-        .then(shops => {
-            res.send(shops)
+router.get('/shops/bypage/:page', (req, res, next) => {
+    const page = req.params.page
+    const pageSize = 6
+    const offset = req.query.offset || (page - 1) * pageSize
+    const limit = req.query.limit || pageSize
+    Promise.all([
+        Shop.count(),
+        Shop.findAll({ limit, offset })
+      ])
+        .then(([total, shops]) => {
+          res.send({
+            shops, total
+          })
         })
-        .catch(err => {
-            res.status(500).send({
-                message: 'Something went wrong',
-                error: err
-            })
-        })
-})
+        .catch(error => next(error))
+    })
 
 router.get('/shops/:id', (req, res, next) => {
     Shop

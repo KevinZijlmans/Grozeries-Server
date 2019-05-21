@@ -22,6 +22,7 @@ router.post('/shops', auth,  (req, res, next) => {
 })
 
 router.get('/shops', (req, res, next) => {
+
     // const page = req.params.page
     // const pageSize = 6
     // const offset = req.query.offset || (page - 1) * pageSize
@@ -35,10 +36,10 @@ router.get('/shops', (req, res, next) => {
                 shops, total
             })
         })
-        .catch(error => next(error))
 })
 
 router.get('/shops/:id', (req, res, next) => {
+
     
     // const page = req.params.page
     // const pageSize = 4
@@ -46,13 +47,14 @@ router.get('/shops/:id', (req, res, next) => {
     // const limit = req.query.limit || pageSize
 
     Shop
-        .findByPk(req.params.id)
+        .findByPk(req.params.id, { include: [Product] })
         .then(shop => {
             if (!shop) {
                 return res.status(404).send({
                     message: `shop does not exist`
                 })
             }
+
             shop.getProducts()
          .then(products => {
             res.send({...shop.dataValues, products})

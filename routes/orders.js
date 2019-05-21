@@ -28,6 +28,7 @@ router.post('/orders', auth, (req, res, next) => {
 })
 
 router.get('/orders', auth, (req, res, next) => {
+
     // const page = req.params.page
     // const pageSize = 10
     // const offset = req.query.offset || (page - 1) * pageSize
@@ -41,7 +42,6 @@ router.get('/orders', auth, (req, res, next) => {
                 orders, total
             })
         })
-        .catch(error => next(error))
 })
 
 router.get('/orders/:id', auth, (req, res, next) => {
@@ -131,4 +131,3 @@ router.post('/orders/:id/payments', auth, (req, res, next) => {
 })
 
 module.exports = router
-

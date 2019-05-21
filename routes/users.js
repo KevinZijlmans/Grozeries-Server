@@ -21,7 +21,7 @@ router.post("/register", (req, res, next) => {
   });
 });
 
-router.get("/users/:id", (req, res, next) => {
+router.get("/users/:id", auth, (req, res, next) => {
   User.findByPk(req.params.id)
     .then(user => {
       if (!user) {

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     payment_amount: DataTypes.STRING,
     payment_started: DataTypes.BOOLEAN,
-    payment_ok: DataTypes.BOOLEAN,
+    payment_ok: DataTypes.BOOLEAN
   }, {});
 
   Order.associate = function (models) {

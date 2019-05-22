@@ -64,7 +64,6 @@ router.get('/shops/:id', (req, res, next) => {
                     message: `shop does not exist`
                 })
             }
-
             shop.getProducts()
                 .then(products => {
                     res.send({ ...shop.dataValues, products })

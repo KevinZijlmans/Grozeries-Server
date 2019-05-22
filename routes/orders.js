@@ -89,6 +89,7 @@ router.post('/orders/:id/payments', auth, (req, res, next) => {
     Order
         .findByPk(orderId)
         .then((order) => {
+            console.log(order, "order????!!!")
             if (!order) {
                 return res.status(404).send({
                     message: `order does not exist`

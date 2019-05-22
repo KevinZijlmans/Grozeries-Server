@@ -36,7 +36,7 @@ router.get('/orders', auth, (req, res, next) => {
     Promise.all([
         Order.count(),
         Order.findAll()
-      ])
+    ])
         .then(([total, orders]) => {
             res.send({
                 orders, total

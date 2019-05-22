@@ -82,7 +82,7 @@ router.put('/orders/:id', auth, (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.post('/orders/:id/payments', auth, (req, res, next) => {
+router.post('/orders/:id/payments', (req, res, next) => {
     const orderId = req.params.id
     // const orderAmount = req.payment_amount
     const orderAmount = '100'

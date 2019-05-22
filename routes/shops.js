@@ -6,8 +6,7 @@ const auth = require("../authorization/middleware")
 
 const router = new Router()
 
-router.post('/shops', auth, (req, res, next) => {
-
+router.post('/shops', (req, res, next) => {
     Shop
         .create(req.body)
         .then(shop => {
@@ -22,7 +21,6 @@ router.post('/shops', auth, (req, res, next) => {
 })
 
 router.get('/shops', (req, res, next) => {
-
     Shop
         .findAll()
         .then(shops => {

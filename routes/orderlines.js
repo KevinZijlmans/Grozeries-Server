@@ -65,16 +65,16 @@ router.get('/orders/:id/orderlines', (req, res, next) => {
                     message: `order does not exist`
                 })
             }
-            order.getOrderlines()
-            .then(orderlines => {
-                res.send({ ...order.dataValues, orderlines })
-            })
-            // Orderline
-            //     .findAll({ where: { orderId: order.id }, include: [Product] })
-            //     .then(orderlines => {
-            //         // console.log(orderlines,"orderlines???")
-            //         res.send(orderlines)
-            //     })
+            // order.getOrderlines()
+            // .then(orderlines => {
+            //     res.send({ ...order.dataValues, orderlines })
+            // })
+            Orderline
+                .findAll({ where: { orderId: order.id }, include: [Product] })
+                .then(orderlines => {
+                    console.log(orderlines,"orderlines???")
+                    res.send(orderlines)
+                })
                 .catch(err => {
                     res.status(500).send({
                         message: 'Something went wrong',

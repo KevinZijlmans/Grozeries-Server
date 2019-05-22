@@ -84,28 +84,32 @@ router.put('/orders/:id', auth, (req, res, next) => {
 
 router.post('/orders/:id/payments', (req, res, next) => {
     const orderId = req.params.id
+    // console.log("ORDERID", orderId)
     // const orderAmount = req.payment_amount
     const orderAmount = '100'
     Order
         .findByPk(orderId)
         .then((order) => {
+            try{
             if (!order) {
-                return res.status(404).send({
-                    message: `order does not exist`
-                })
-            } order.payment_started = true
-            console.log("Order 1 changed payment started to true", order)
+                // return res.status(404).send({
+                //     message: `order does not exist`
+                // })
+            } 
+            else order.payment_started = true
+            console.log("Order 1 changed payment started to true", order.payment_started)
             order.save()
-            return res.status(200).send({
-                message: `Order payment initiated`
-            })
+            // res.status(200).send({
+            //     message: `Order payment initiated`
+            // })
+        } catch{}
         })
         .catch(error => next(error))
 
     mollie.payments
         .create({
             "amount": {
-                "value": "14.00",
+                "value": "20.00",
                 "currency": "EUR"
             },
             "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: ${orderAmount}`,
@@ -117,12 +121,14 @@ router.post('/orders/:id/payments', (req, res, next) => {
         .then((payment) => {
             // console.log(payment)
             if (!payment) {
-                return res.status(404).send({
-                    message: `Mollie payment does not exist`
-                })
+                // return res.status(404).send({
+                //     message: `Mollie payment does not exist`
+                // })
             }
-            // console.log("URL-URL",payment.getPaymentUrl())
-            return payment.getPaymentUrl()
+            const paymentURL = payment.getPaymentUrl() 
+            console.log("URL-URL",paymentURL)
+            // console.log("result",res)
+            return res.status(200).send(paymentURL)
         })
         .catch((err) => {
             console.log("ERROR: ", err)

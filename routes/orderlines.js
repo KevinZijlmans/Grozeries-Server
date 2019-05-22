@@ -8,13 +8,15 @@ const { totalSum } = require('../logic')
 const router = new Router()
 
 router.post('/orders/:id', (req, res, next) => {
-    console.log("req at orders/3:", req.body)
     const quantity = req.body.quantity
     const price = req.body.price
     const productId = req.body.productId
     const orderId = req.params.id
+    console.log("req at params.id should be /3:", req.params.id)
     const userId = req.body.userId
+    console.log("req at body.ordersId should be 3 :", req.body.orderId)
     const shopId = req.body.shopId
+    // console.log("req at orders/3:", req.body.shopId)
     const status = req.body.status
     const total_price = req.body.total_price
 
@@ -28,7 +30,8 @@ router.post('/orders/:id', (req, res, next) => {
             // }
             // else {
                 Orderline
-                    .create({ quantity, price, productId, orderId, total_price, userId, shopId, status })
+                    .create({ 
+                        quantity, price, productId, orderId, total_price, userId, shopId, status })
                     .then(orderline => {
                         console.log("orderline BITCH", orderline)
                         const total = totalSum(orderline)

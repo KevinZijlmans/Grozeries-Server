@@ -33,7 +33,7 @@ router.post('/orders/:id', auth, (req, res, next) => {
     Orderline
         .create({
             quantity, price, productId, orderId, total_price, userId, shopId, status
-        }, {include: [Product]})
+        }, { include: [Product] })
         .then(orderline => {
             const total = totalSum(orderline)
             orderline.total_price = total
@@ -55,7 +55,7 @@ router.post('/orders/:id', auth, (req, res, next) => {
         })
 })
 
-router.get('/orders/:id/orderlines',auth, (req, res, next) => {
+router.get('/orders/:id/orderlines', auth, (req, res, next) => {
     Order
         .findByPk(req.params.id)
         .then(order => {
@@ -100,4 +100,35 @@ router.get('/shops/:id/orderlines', auth, (req, res, next) => {
                 })
         })
 })
+
+router.delete('/orders/:id/orderlines/:orderlineid', (req, res, next) => {
+    Order
+        .findByPk(req.params.id)
+        .then(order => {
+            if (!order) {
+                return res.status(404).send({
+                    message: 'order does not exist'
+                })
+            }
+
+            Orderline
+                .findByPk(req.params.orderlineid)
+                .then(orderline => {
+                    if (!orderline) {
+                        return res.status(404).send({
+                            message: 'orderline does not exist'
+                        })
+                    }
+                    return orderline.destroy()
+                        .then(() => res.send({
+                            message: 'orderline was deleted'
+                        }))
+                })
+
+        })
+        .catch(
+            error => next(error)
+        )
+})
+
 module.exports = router

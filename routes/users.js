@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const User = require("../models").user;
+const Order = require("../models").order;
 const bcrypt = require("bcrypt");
 const auth = require("../authorization/middleware")
 
@@ -22,7 +23,7 @@ router.post("/register", (req, res, next) => {
 });
 
 router.get("/users/:id", auth, (req, res, next) => {
-  User.findByPk(req.params.id)
+  User.findByPk(req.params.id, { include: [Order] })
     .then(user => {
       if (!user) {
         return res.status(404).send({

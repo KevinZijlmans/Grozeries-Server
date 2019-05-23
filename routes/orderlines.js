@@ -4,6 +4,7 @@ const Order = require('../models').order
 const auth = require('../authorization/middleware')
 const Product = require('../models').product
 const { totalSum } = require('../logic')
+const Shop = require('../models').shop
 
 const router = new Router()
 
@@ -32,9 +33,8 @@ router.post('/orders/:id', (req, res, next) => {
     Orderline
         .create({
             quantity, price, productId, orderId, total_price, userId, shopId, status
-        })
+        }, {include: [Product]})
         .then(orderline => {
-            console.log("orderline BITCH", orderline)
             const total = totalSum(orderline)
             orderline.total_price = total
 
@@ -45,7 +45,7 @@ router.post('/orders/:id', (req, res, next) => {
                 })
             }
             orderline.save({ total_price: total })
-            return res.status(201).send(orderline)
+            res.status(201).send(orderline)
         })
         .catch(err => {
             res.status(500).send({
@@ -53,9 +53,7 @@ router.post('/orders/:id', (req, res, next) => {
                 error: err
             })
         })
-}
-    //         })
-)
+})
 
 router.get('/orders/:id/orderlines', (req, res, next) => {
     Order
@@ -66,14 +64,32 @@ router.get('/orders/:id/orderlines', (req, res, next) => {
                     message: `order does not exist`
                 })
             }
-            // order.getOrderlines()
-            // .then(orderlines => {
-            //     res.send({ ...order.dataValues, orderlines })
-            // })
             Orderline
                 .findAll({ where: { orderId: order.id }, include: [Product] })
                 .then(orderlines => {
-                    console.log(orderlines, "orderlines???")
+                    res.send(orderlines)
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message: 'Something went wrong',
+                        error: err
+                    })
+                })
+        })
+})
+
+router.get('/shops/:id/orderlines', (req, res, next) => {
+    Shop
+        .findByPk(req.params.id)
+        .then(shop => {
+            if (!shop) {
+                return res.status(404).send({
+                    message: `shop does not exist`
+                })
+            }
+            Orderline
+                .findAll({ where: { shopId: shop.id }, include: [Product] })
+                .then(orderlines => {
                     res.send(orderlines)
                 })
                 .catch(err => {

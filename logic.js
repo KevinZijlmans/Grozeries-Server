@@ -17,5 +17,23 @@ function paymentAmount(order, orderlines) {
     return sum
 }
 
+function adjustStock(orderlines) {
 
-module.exports = { totalSum, paymentAmount }
+    orderlines.map(orderline => {
+
+
+        const productArray = orderline.map(product => { return product })
+        console.log('productarray', productArray)
+        productArray.map(product => {
+            if (product.id === orderline.productId) {
+                // product.quantity = product.quantity - orderline.quantity
+                console.log('product.quantity', product.quantity)
+            }
+        })
+
+    })
+
+    // product.save()
+}
+
+module.exports = { totalSum, paymentAmount, adjustStock }

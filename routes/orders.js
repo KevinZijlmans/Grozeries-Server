@@ -2,12 +2,13 @@ const { Router } = require('express')
 const mollie = require('@mollie/api-client')({ apiKey: 'test_qcMAbRrhuVzzkVaR6DRMgDq86k8NWt' });
 const Order = require('../models').order
 const Orderline = require('../models').orderline
+const Product = require('../models').product
 const auth = require('../authorization/middleware')
-const { paymentAmount } = require('../logic')
+const { paymentAmount, adjustStock } = require('../logic')
 
 const router = new Router()
 
-router.post('/orders', auth, (req, res, next) => {
+router.post('/orders', (req, res, next) => {
     Order
         .create(req.body)
         .then(order => {
@@ -100,78 +101,93 @@ router.post('/orders/:id/payments', (req, res, next) => {
             console.log("GET THIS FAR: ", secondFinalActualInt)
             // const secondFinalActualInt = ( Math.floor(finalInt * 100) / 100 )
             mollie.payments
-            .create({
-                "amount": {
-                    "value": `${secondFinalActualInt}`,
-                    "currency": "EUR"
-                },
-                "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: ${orderAmount}`,
-                "redirectUrl": `http://localhost:3000/orders/thank-you/`,
-                "webhookUrl":  `http://grozeries.herokuapp.com/orders/${orderId}/webhook/`,
-                // "webhookUrl": "http://albertsm.it/",
-                // "method": "ideal"
-            })
-            .then((payment) => {
-                // console.log("PAY", payment)
-                if (!payment) {
-                    res.status(404).send({
-                        message: `Mollie payment does not exist`
-                    })
-                }
-                // console.log("URL-URL",payment.getPaymentUrl())
-                return res.status(200).send(payment.getPaymentUrl())
-            })
-            .catch(error => next(error))
+                .create({
+                    "amount": {
+                        "value": `${secondFinalActualInt}`,
+                        "currency": "EUR"
+                    },
+                    "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: ${orderAmount}`,
+                    "redirectUrl": `http://localhost:3000/orders/thank-you/`,
+                    "webhookUrl": `http://grozeries.herokuapp.com/orders/${orderId}/webhook/`,
+                    // "webhookUrl": "http://albertsm.it/",
+                    // "method": "ideal"
+                })
+                .then((payment) => {
+                    // console.log("PAY", payment)
+                    if (!payment) {
+                        res.status(404).send({
+                            message: `Mollie payment does not exist`
+                        })
+                    }
+                    // console.log("URL-URL",payment.getPaymentUrl())
+                    return res.status(200).send(payment.getPaymentUrl())
+                })
+                .catch(error => next(error))
             // res.status(200).send({
             //     message: `Order payment initiated`
             // })
         })
-        .catch(error => next(error))  
+        .catch(error => next(error))
 })
 
 router.post('/orders/:id/webhook/', async (req, res) => {
     const orderId = req.params.id
     // console.log("IDDD@:",id)
-    console.log("LIE MOLLIE LIE ID?", req.body.id) 
-    console.log("LIE MOLLIE LIE BODY?", req.body) 
-    console.log("LIE MOLLIE LIE REQ?", req) 
-    console.log("LIE MOLLIE LIE RES?", res) 
+    // console.log("LIE MOLLIE LIE ID?", req.body.id)
+    // console.log("LIE MOLLIE LIE BODY?", req.body)
+    // console.log("LIE MOLLIE LIE REQ?", req)
+    // console.log("LIE MOLLIE LIE RES?", res)
     try {
-    const payment = await mollie.payments.get(req.body.id);
-    console.log("ARE WE THERE payment?", payment) 
-    const isPaid = payment.isPaid();
-    
-    if (isPaid) {
-          Order
-          .findByPk(orderId)
-          .then((order) => {
-            if (!order) {
-                return res.status(404).send({
-                    message: `order does not exist`
-                }) 
-            } 
-            else {
-                order.payment_ok = true
-            console.log("Order 1 changed payment started to true", order)
-            console.log("mollie payment", payment)
-            console.log("mollie payment is paid?", isPaid)
-            console.log("no, but the mollie payment status is:", payment.status)  
-            console.log('Payment is paid');
-            order.save()
-            res.status(200).send({
-                message: `Order is paid!`
-            })}
-        })
-    }
-    else {
-        return res.status(404).send({
-            message: `Payment is not paid, but instead it is: ${payment.status}`
-        })
-      }
+        const payment = await mollie.payments.get(req.body.id);
+        // console.log("ARE WE THERE payment?", payment)
+        const isPaid = payment.isPaid();
+
+        if (isPaid) {
+            Order
+                .findByPk(orderId)
+                .then((order) => {
+                    if (!order) {
+                        return res.status(404).send({
+                            message: `order does not exist`
+                        })
+                    }
+                    else {
+                        order.payment_ok = true
+
+                        Orderline
+                            .findAll({ where: { orderId: order.id }, include: [Product] })
+                            .then(orderlines => {
+                                adjustStock(orderlines)
+                                res.send(orderlines)
+                            })
+                            .catch(err => {
+                                res.status(500).send({
+                                    message: 'Something went wrong',
+                                    error: err
+                                })
+                            })
+
+                        // console.log("Order 1 changed payment started to true", order)
+                        // console.log("mollie payment", payment)
+                        // console.log("mollie payment is paid?", isPaid)
+                        // console.log("no, but the mollie payment status is:", payment.status)
+                        // console.log('Payment is paid');
+                        order.save()
+                        res.status(200).send({
+                            message: `Order is paid!`
+                        })
+                    }
+                })
+        }
+        else {
+            return res.status(404).send({
+                message: `Payment is not paid, but instead it is: ${payment.status}`
+            })
+        }
     }
     catch (err) {
-      console.log("ERROR OCCURRED:", err);
+        console.log("ERROR OCCURRED:", err);
     }
-  })
+})
 
 module.exports = router

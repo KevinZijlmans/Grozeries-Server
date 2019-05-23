@@ -8,7 +8,7 @@ const Shop = require('../models').shop
 
 const router = new Router()
 
-router.post('/orders/:id', auth, (req, res, next) => {
+router.post('/orders/:id', (req, res, next) => {
     const quantity = req.body.quantity
     const price = req.body.price
     const productId = req.body.productId
@@ -55,7 +55,7 @@ router.post('/orders/:id', auth, (req, res, next) => {
         })
 })
 
-router.get('/orders/:id/orderlines', auth, (req, res, next) => {
+router.get('/orders/:id/orderlines', (req, res, next) => {
     Order
         .findByPk(req.params.id)
         .then(order => {

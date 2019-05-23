@@ -131,4 +131,19 @@ router.delete('/orders/:id/orderlines/:orderlineid', (req, res, next) => {
         )
 })
 
+router.put('/orderlines/:id', auth, (req, res, next) => {
+    Orderline
+        .findByPk(req.params.id)
+        .then(orderline => {
+            if (!orderline) {
+                return res.status(404).send({
+                    message: `order does not exist`
+                })
+            }
+            return orderline.update(req.body)
+                .then(orderline => res.send(orderline))
+        })
+        .catch(error => next(error))
+})
+
 module.exports = router

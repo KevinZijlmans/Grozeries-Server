@@ -5,8 +5,7 @@ module.exports = {
         return queryInterface.sequelize.transaction((t) => {
             return Promise.all([
                 queryInterface.addColumn('orderlines', 'total_price', {
-                    type: Sequelize.INTEGER,
-                    allowNull: true
+                  type: Sequelize.INTEGER
                 }, { transaction: t }),
             ])
         })

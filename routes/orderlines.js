@@ -72,7 +72,7 @@ router.get('/orders/:id/orderlines', (req, res, next) => {
             Orderline
                 .findAll({ where: { orderId: order.id }, include: [Product] })
                 .then(orderlines => {
-                    console.log(orderlines,"orderlines???")
+                    // console.log(orderlines,"orderlines???")
                     res.send(orderlines)
                 })
                 .catch(err => {

@@ -107,7 +107,7 @@ router.post('/orders/:id/payments', (req, res, next) => {
                 },
                 "description": `Grozeries Payment with orderId: ${orderId} and with orderAmount: ${orderAmount}`,
                 "redirectUrl": `http://localhost:3000/orders/thank-you/`,
-                "webhookUrl":  `https://34929db1.ngrok.io/orders/${orderId}/webhook/`,
+                "webhookUrl":  `http://grozeries.herokuapp.com/orders/${orderId}/webhook/`,
                 // "webhookUrl": "http://albertsm.it/",
                 // "method": "ideal"
             })

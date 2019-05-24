@@ -158,14 +158,13 @@ router.post('/orders/:id/webhook/', async (req, res) => {
                             .findAll({ where: { orderId: order.id }, include: [Product] })
                             .then(orderlines => {
                                 adjustStock(orderlines)
-                                //         // res.send(orderlines)
                             })
-                        //     .catch(err => {
-                        //         res.status(500).send({
-                        //             message: 'Something went wrong',
-                        //             error: err
-                        //         })
-                        //     })
+                            .catch(err => {
+                                res.status(500).send({
+                                    message: 'Something went wrong',
+                                    error: err
+                                })
+                            })
 
                         // console.log("Order 1 changed payment started to true", order)
                         // console.log("mollie payment", payment)

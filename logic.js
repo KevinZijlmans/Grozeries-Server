@@ -18,18 +18,17 @@ function paymentAmount(order, orderlines) {
 }
 
 function adjustStock(orderlines) {
-
+    //gives an aray of orderlines with products
     orderlines.map(orderline => {
+        console.log('orderline that belongs to this order', orderline)
+        console.log('orderline product', orderline.product)
+        const product = orderline.product
+        console.log('product.quantity before', product.quantity)
+        console.log('product.quantity', product.quantity)
+        console.log('orderline.quantity', orderline.quantity)
 
-
-        const productArray = orderline.map(product => { return product })
-        console.log('productarray', productArray)
-        productArray.map(product => {
-            if (product.id === orderline.productId) {
-                // product.quantity = product.quantity - orderline.quantity
-                console.log('product.quantity', product.quantity)
-            }
-        })
+        product.quantity = product.quantity - orderline.quantity
+        console.log('product.quantity after', product.quantity)
 
     })
 

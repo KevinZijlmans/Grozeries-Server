@@ -7,49 +7,30 @@ const { paymentAmount } = require('../logic')
 
 const router = new Router()
 
-router.post('/orders', auth, (req, res, next) => {
-    const street_name = req.body.street_name
-    const house_number = req.body.house_number
-    const zipcode = req.body.zipcode
-    const city = req.body.city
-    const comments = req.body.comments
-    const delivery_time = req.body.delivery_time
-    const status = req.body.status
-    const payment_id = req.body.payment_id
-    const payment_amount = req.body.payment_amount
-    const payment_status = req.body.payment_status
-    const payment_ok = req.body.payment_ok
-    const userId = req.body.userId
-
+router.post('/orders/:id', (req, res, next) => {
+    const userReqId = req.params.id
     Order
-        .create(
-            street_name,
-            house_number,
-            zipcode,
-            city,
-            comments,
-            delivery_time,
-            status,
-            payment_id,
-            payment_amount,
-            payment_status,
-            payment_ok,
-            userId)
-        .then(order => {
-            if (!order) {
-                return res.status(404).send({
-                    message: `order does not exist`
-                })
-            }
-            return res.status(201).send(order)
-
-        })
-        .catch(err => {
+    .findOrCreate({
+        where: {
+        userId: userReqId,
+        payment_ok: "FALSE"
+        },
+        defaults: { userId: userReqId }
+      })
+    .then((order, created) => {
+        if (!order) {
+            return res.status(404).send({
+                message: `order does not exist`
+            })
+        }
+        return res.status(201).send(order)
+    })
+    .catch(err => {
             res.status(500).send({
                 message: 'Something went wrong',
                 error: err
-            })
         })
+    })
 })
 
 router.get('/orders', auth, (req, res, next) => {

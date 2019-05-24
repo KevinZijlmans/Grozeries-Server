@@ -89,7 +89,7 @@ router.get('/shops/:id/orderlines', auth, (req, res, next) => {
         })
 })
 
-router.delete('/orders/:id/orderlines/:orderlineid', (req, res, next) => {
+router.delete('/orderlines/:orderlineid', (req, res, next) => {
     Order
         .findByPk(req.params.id)
         .then(order => {

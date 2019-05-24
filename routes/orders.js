@@ -8,8 +8,33 @@ const { paymentAmount } = require('../logic')
 const router = new Router()
 
 router.post('/orders', auth, (req, res, next) => {
+    const street_name = req.body.street_name
+    const house_number = req.body.house_number
+    const zipcode = req.body.zipcode
+    const city = req.body.city
+    const comments = req.body.comments
+    const delivery_time = req.body.delivery_time
+    const status = req.body.status
+    const payment_id = req.body.payment_id
+    const payment_amount = req.body.payment_amount
+    const payment_status = req.body.payment_status
+    const payment_ok = req.body.payment_ok
+    const userId = req.body.userId
+
     Order
-        .create(req.body)
+        .create(
+            street_name,
+            house_number,
+            zipcode,
+            city,
+            comments,
+            delivery_time,
+            status,
+            payment_id,
+            payment_amount,
+            payment_status,
+            payment_ok,
+            userId)
         .then(order => {
             if (!order) {
                 return res.status(404).send({
@@ -84,7 +109,7 @@ router.put('/orders/:id', auth, (req, res, next) => {
 
 router.post('/orders/:id/payments', (req, res, next) => {
     const orderId = req.params.id
-    // console.log("orderIDDDD", orderId)
+
     Order
         .findByPk(orderId)
         .then((order) => {

@@ -13,23 +13,11 @@ router.post('/orders/:id', auth, (req, res, next) => {
     const price = req.body.price
     const productId = req.body.productId
     const orderId = req.params.id
-    console.log("req at params.id should be /3:", req.params.id)
     const userId = req.body.userId
-    console.log("req at body.ordersId should be 3 :", req.body.orderId)
     const shopId = req.body.shopId
-    // console.log("req at orders/3:", req.body.shopId)
     const status = req.body.status
     const total_price = req.body.total_price
 
-    // Order
-    // .findByPk(req.params.id)
-    // .then(order => {
-    // if (!order) {
-    //     return res.status(404).send({
-    //         message: `order does not exist`
-    //     })
-    // }
-    // else {
     Orderline
         .create({
             quantity, price, productId, orderId, total_price, userId, shopId, status

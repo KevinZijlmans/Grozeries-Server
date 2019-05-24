@@ -23,6 +23,7 @@ router.post('/orders/:id', (req, res, next) => {
                 message: `order does not exist`
             })
         }
+        userReqId.findByPk()
         return res.status(201).send(order)
     })
     .catch(err => {

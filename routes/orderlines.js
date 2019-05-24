@@ -8,7 +8,7 @@ const Shop = require('../models').shop
 
 const router = new Router()
 
-router.post('/orders/:id', auth, (req, res, next) => {
+router.post('/orderlines/:id', auth, (req, res, next) => {
     const quantity = req.body.quantity
     const price = req.body.price
     const productId = req.body.productId

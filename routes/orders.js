@@ -90,7 +90,7 @@ router.put('/orders/:id', auth, (req, res, next) => {
 
 router.post('/orders/:id/payments', (req, res, next) => {
     const orderId = req.params.id
-    // console.log("orderIDDDD", orderId)
+
     Order
         .findByPk(orderId)
         .then((order) => {

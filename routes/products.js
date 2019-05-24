@@ -16,6 +16,7 @@ router.post('/shops/:id', auth, (req, res, next) => {
     const quantity = req.body.quantity
     const in_stock = req.body.in_stock
     const image = req.body.image
+    
     Product
         .create({
             product_name,

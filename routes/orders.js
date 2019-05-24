@@ -7,24 +7,30 @@ const { paymentAmount } = require('../logic')
 
 const router = new Router()
 
-router.post('/orders', auth, (req, res, next) => {
+router.post('/orders/:id', (req, res, next) => {
+    const userReqId = req.params.id
     Order
-        .create(req.body)
-        .then(order => {
-            if (!order) {
-                return res.status(404).send({
-                    message: `order does not exist`
-                })
-            }
-            return res.status(201).send(order)
-
-        })
-        .catch(err => {
+    .findOrCreate({
+        where: {
+        userId: userReqId,
+        payment_ok: "FALSE"
+        },
+        defaults: { userId: userReqId }
+      })
+    .then((order, created) => {
+        if (!order) {
+            return res.status(404).send({
+                message: `order does not exist`
+            })
+        }
+        return res.status(201).send(order)
+    })
+    .catch(err => {
             res.status(500).send({
                 message: 'Something went wrong',
                 error: err
-            })
         })
+    })
 })
 
 router.get('/orders', auth, (req, res, next) => {

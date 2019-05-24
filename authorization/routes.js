@@ -2,6 +2,7 @@ const { Router } = require('express')
 const { toJWT } = require('./jwt')
 
 const User = require('../models').user
+const Order = require('../models').Order
 const bcrypt = require('bcrypt')
 
 
@@ -51,6 +52,7 @@ router.post('/logins', (req, res) => {
           })
         }
       })
+      .then(console.log("ENTITY",req))
       .catch(err => {
         console.error(err)
         res.status(500).send({

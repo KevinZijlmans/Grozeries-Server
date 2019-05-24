@@ -52,7 +52,7 @@ router.post('/logins', (req, res) => {
           })
         }
       })
-      .then(console.log("ENTITY",req))
+      // .then(console.log("ENTITY",req))
       .catch(err => {
         console.error(err)
         res.status(500).send({

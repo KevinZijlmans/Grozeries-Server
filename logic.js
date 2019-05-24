@@ -18,21 +18,15 @@ function paymentAmount(order, orderlines) {
 }
 
 function adjustStock(orderlines) {
-    //gives an aray of orderlines with products
+    //gives an array of orderlines with products
     orderlines.map(orderline => {
-        console.log('orderline that belongs to this order', orderline)
-        console.log('orderline product', orderline.product)
+
         const product = orderline.product
-        console.log('product.quantity before', product.quantity)
-        console.log('product.quantity', product.quantity)
-        console.log('orderline.quantity', orderline.quantity)
-
         product.quantity = product.quantity - orderline.quantity
-        console.log('product.quantity after', product.quantity)
-
+        product.save()
     })
 
-    // product.save()
+
 }
 
 module.exports = { totalSum, paymentAmount, adjustStock }

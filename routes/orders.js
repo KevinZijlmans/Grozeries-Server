@@ -9,6 +9,20 @@ const router = new Router()
 
 router.post('/orders/:id', (req, res, next) => {
     const userReqId = req.params.id
+    // console.log(userReqId, "userReqId")
+    const quantity = req.body.quantity
+    // console.log(quantity, "quantity")
+    const price = req.body.price
+    // console.log(price, "price")
+    const productId = req.body.productId
+    // console.log(productId, "productId")
+    const shopId = req.body.shopId
+    // console.log(shopId, "shopId")
+    const status = "pending"
+    // console.log(status, "status")
+    const total_price = (price * quantity)
+    // console.log(total_price, "total_price")
+
     Order
     .findOrCreate({
         where: {
@@ -17,17 +31,46 @@ router.post('/orders/:id', (req, res, next) => {
         },
         defaults: { userId: userReqId }
       })
-    .then((order, created) => {
-        if (!order) {
+    .then((orderFoundOrCreated, created) => {
+        console.log(orderFoundOrCreated, "orderFoundOrCreated")
+        if (!orderFoundOrCreated) {
             return res.status(404).send({
                 message: `order does not exist`
             })
         }
-        return res.status(201).send(order)
+        else {
+        const orderId = orderFoundOrCreated[0].id
+        console.log(orderId, "orderId")
+        Orderline
+        .create({
+            quantity, price, productId, orderId, total_price, userReqId, shopId, status
+        })
+        .then(orderline => {
+            // console.log(orderline, "orderline")
+            // const total = totalSum(orderline)
+            // console.log(total, "total")
+            // orderline.total_price = total
+                if (!orderline) {
+                    return res.status(404).send({
+                        message: `orderline does not exist`
+                    })
+                }
+                orderline.save()
+                return orderline
+                // res.status(201).send(orderline)
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: 'Something went wrong with adding to cart',
+                    error: err
+                })
+            })
+            // return res.status(201).send(order)
+            }   
     })
     .catch(err => {
             res.status(500).send({
-                message: 'Something went wrong',
+                message: 'Something went wrong with finding or creating of the order',
                 error: err
         })
     })

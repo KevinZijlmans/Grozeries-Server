@@ -44,18 +44,26 @@ router.post('/orderlines/:id', auth, (req, res, next) => {
 })
 
 router.get('/orders/:id/orderlines', auth, (req, res, next) => {
+    const userReqId = req.params.id
     Order
-        .findByPk(req.params.id)
-        .then(order => {
+    .findOrCreate({
+        where: {
+        userId: userReqId,
+        payment_ok: "FALSE"
+        },
+        defaults: { userId: userReqId }
+      })
+    .then(order => {
             if (!order) {
                 return res.status(404).send({
                     message: `order does not exist`
                 })
             }
-            Orderline
-                .findAll({ where: { orderId: order.id }, include: [Product] })
+            else {
+                Orderline
+                .findAll({ where: { orderId: order[0].id }, include: [Product] })
                 .then(orderlines => {
-                    res.send(orderlines)
+                    if(orderlines) res.send(orderlines)
                 })
                 .catch(err => {
                     res.status(500).send({
@@ -63,7 +71,9 @@ router.get('/orders/:id/orderlines', auth, (req, res, next) => {
                         error: err
                     })
                 })
-        })
+            }
+    
+    })
 })
 
 router.get('/shops/:id/orderlines', auth, (req, res, next) => {

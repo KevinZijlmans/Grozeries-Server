@@ -46,10 +46,6 @@ router.post('/orders/:id', (req, res, next) => {
             quantity, price, productId, orderId, total_price, userReqId, shopId, status
         })
         .then(orderline => {
-            // console.log(orderline, "orderline")
-            // const total = totalSum(orderline)
-            // console.log(total, "total")
-            // orderline.total_price = total
                 if (!orderline) {
                     return res.status(404).send({
                         message: `orderline does not exist`
@@ -77,11 +73,6 @@ router.post('/orders/:id', (req, res, next) => {
 })
 
 router.get('/orders', auth, (req, res, next) => {
-
-    // const page = req.params.page
-    // const pageSize = 10
-    // const offset = req.query.offset || (page - 1) * pageSize
-    // const limit = req.query.limit || pageSize
     Promise.all([
         Order.count(),
         Order.findAll()
@@ -132,17 +123,30 @@ router.put('/orders/:id', auth, (req, res, next) => {
 })
 
 router.post('/orders/:id/payments', (req, res, next) => {
-    const orderId = req.params.id
-
-    Order
-        .findByPk(orderId)
+    const userReqId = req.params.id
+        Order
+        .findOne({
+            where: {
+            userId: userReqId,
+            payment_ok: "FALSE"
+            }, include: [Orderline] })    
         .then((order) => {
+            // const totalOrderCost = order.orderlines.reduce((total, orderline) => {
+                // return total + orderline.total_price})
             if (!order) {
                 res.status(404).send({
                     message: `order does not exist`
                 })
-            } order.payment_started = true
+            } 
+            const totalOrderLineCost = order.orderlines
+            .map(orderline => orderline.total_price)
+            .reduce((total, cost) => total + cost)
+            // console.log(totalOrderLineCost, "totalOrderLineCost")
+            order.payment_amount = totalOrderLineCost
+            order.payment_started = true
             order.save()
+
+            const orderId = order.id
             const orderAmount = order.payment_amount
             const finalInt = parseFloat(orderAmount)
             const secondFinalActualInt = finalInt.toFixed(2)
@@ -181,10 +185,10 @@ router.post('/orders/:id/payments', (req, res, next) => {
 router.post('/orders/:id/webhook/', async (req, res) => {
     const orderId = req.params.id
     // console.log("IDDD@:",id)
-    console.log("LIE MOLLIE LIE ID?", req.body.id) 
-    console.log("LIE MOLLIE LIE BODY?", req.body) 
-    console.log("LIE MOLLIE LIE REQ?", req) 
-    console.log("LIE MOLLIE LIE RES?", res) 
+    console.log("MOLLIE ID?", req.body.id) 
+    console.log("MOLLIE BODY?", req.body) 
+    console.log("MOLLIE REQ?", req) 
+    console.log("MOLLIE RES?", res) 
     try {
     const payment = await mollie.payments.get(req.body.id);
     console.log("ARE WE THERE payment?", payment) 

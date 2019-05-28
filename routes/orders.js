@@ -32,7 +32,7 @@ router.post('/orders/:id', (req, res, next) => {
         defaults: { userId: userReqId }
       })
     .then((orderFoundOrCreated, created) => {
-        console.log(orderFoundOrCreated, "orderFoundOrCreated")
+        // console.log(orderFoundOrCreated, "orderFoundOrCreated")
         if (!orderFoundOrCreated) {
             return res.status(404).send({
                 message: `order does not exist`
@@ -40,7 +40,7 @@ router.post('/orders/:id', (req, res, next) => {
         }
         else {
         const orderId = orderFoundOrCreated[0].id
-        console.log(orderId, "orderId")
+        // console.log(orderId, "orderId")
         Orderline
         .create({
             quantity, price, productId, orderId, total_price, userReqId, shopId, status
@@ -150,7 +150,7 @@ router.post('/orders/:id/payments', (req, res, next) => {
             const orderAmount = order.payment_amount
             const finalInt = parseFloat(orderAmount)
             const secondFinalActualInt = finalInt.toFixed(2)
-            console.log("GET THIS FAR: ", secondFinalActualInt)
+            // console.log("GET THIS FAR: ", secondFinalActualInt)
             // const secondFinalActualInt = ( Math.floor(finalInt * 100) / 100 )
             mollie.payments
             .create({
@@ -185,13 +185,13 @@ router.post('/orders/:id/payments', (req, res, next) => {
 router.post('/orders/:id/webhook/', async (req, res) => {
     const orderId = req.params.id
     // console.log("IDDD@:",id)
-    console.log("MOLLIE ID?", req.body.id) 
-    console.log("MOLLIE BODY?", req.body) 
-    console.log("MOLLIE REQ?", req) 
-    console.log("MOLLIE RES?", res) 
+    // console.log("MOLLIE ID?", req.body.id) 
+    // console.log("MOLLIE BODY?", req.body) 
+    // console.log("MOLLIE REQ?", req) 
+    // console.log("MOLLIE RES?", res) 
     try {
     const payment = await mollie.payments.get(req.body.id);
-    console.log("ARE WE THERE payment?", payment) 
+    // console.log("ARE WE THERE payment?", payment) 
     const isPaid = payment.isPaid();
     
     if (isPaid) {
@@ -205,11 +205,11 @@ router.post('/orders/:id/webhook/', async (req, res) => {
             } 
             else {
                 order.payment_ok = true
-            console.log("Order 1 changed payment started to true", order)
-            console.log("mollie payment", payment)
-            console.log("mollie payment is paid?", isPaid)
-            console.log("no, but the mollie payment status is:", payment.status)  
-            console.log('Payment is paid');
+            // console.log("Order 1 changed payment started to true", order)
+            // console.log("mollie payment", payment)
+            // console.log("mollie payment is paid?", isPaid)
+            // console.log("no, but the mollie payment status is:", payment.status)  
+            // console.log('Payment is paid');
             order.save()
             res.status(200).send({
                 message: `Order is paid!`

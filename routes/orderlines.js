@@ -12,21 +12,28 @@ router.post('/orderlines/:id', auth, (req, res, next) => {
     const quantity = req.body.quantity
     const price = req.body.price
     const productId = req.body.productId
-    const orderId = req.params.id
-    const userId = req.body.userId
     const shopId = req.body.shopId
     const status = req.body.status
     const total_price = req.body.total_price
-
-    Orderline
+    const userReqId = req.params.id
+    Order
+    .findOrCreate({
+        where: {
+        userId: userReqId,
+        payment_ok: "FALSE"
+        },
+        defaults: { userId: userReqId }
+      })
+    .then( order => {
+        const orderId = order.id
+        Orderline
         .create({
             quantity, price, productId, orderId, total_price, userId, shopId, status
         }, { include: [Product] })
         .then(orderline => {
+            console.log("orderline.product TEST",orderline)
             const total = totalSum(orderline)
             orderline.total_price = total
-
-
             if (!orderline) {
                 return res.status(404).send({
                     message: `orderline does not exist`
@@ -41,6 +48,13 @@ router.post('/orderlines/:id', auth, (req, res, next) => {
                 error: err
             })
         })
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: 'Something went wrong',
+            error: err
+        })
+    })
 })
 
 router.get('/orders/:id/orderlines', auth, (req, res, next) => {

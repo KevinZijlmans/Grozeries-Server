@@ -8,14 +8,14 @@ module.exports = {
                     type: Sequelize.INTEGER,
                     allowNull: true
                 }, { transaction: t }),
-                queryInterface.addColumn('users', 'orderId', {
-                  type: Sequelize.INTEGER,
-                  allowNull: true
-              }, { transaction: t }),
+                //     queryInterface.addColumn('users', 'orderId', {
+                //       type: Sequelize.INTEGER,
+                //       allowNull: true
+                //   }, { transaction: t }),
                 queryInterface.addColumn('users', 'shopId', {
-                  type: Sequelize.INTEGER,
-                  allowNull: true
-              }, { transaction: t }),
+                    type: Sequelize.INTEGER,
+                    allowNull: true
+                }, { transaction: t }),
             ])
         })
     },
@@ -24,8 +24,8 @@ module.exports = {
         return queryInterface.sequelize.transaction((t) => {
             return Promise.all([
                 queryInterface.removeColumn('orderlines', 'userId', { transaction: t }),
-                queryInterface.removeColumn('users', 'orderId', { transaction: t }),
-                queryInterface.removeColumn('users', 'orderId', { transaction: t }),
+                // queryInterface.removeColumn('users', 'orderId', { transaction: t }),
+                queryInterface.removeColumn('users', 'shopId', { transaction: t }),
             ])
         })
     }

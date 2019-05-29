@@ -43,7 +43,7 @@ router.post('/logins', (req, res) => {
             phonenumber: entity.phonenumber,
             id: entity.id,
             user_type: entity.user_type,
-            orderid: entity.orderId
+            // orderid: entity.orderId
           })
         }
         else {
@@ -52,7 +52,7 @@ router.post('/logins', (req, res) => {
           })
         }
       })
-      .then(console.log("ENTITY",req))
+      // .then(console.log("ENTITY",req))
       .catch(err => {
         console.error(err)
         res.status(500).send({

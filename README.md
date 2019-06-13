@@ -4,6 +4,12 @@ Real-World Project through Codaisseur. Node / Express / Sequelize back-end.
 VERSION 1.0 (BÈTA) - Server side of Grozeries platform
 The Development Team "Grozeries" of Class 25 welcomes you: may your coding adventure be a good one!
 
+## Contents
+
+This is the server side of the Grozeries platform,
+it is made in Sequelize and Express.
+It contains multiple routes and models and uses Sequelize Migrations.
+
 ## Authors
 
 * **Kevin Zijlmans** - [KevinZijlmans](https://github.com/KevinZijlmans)

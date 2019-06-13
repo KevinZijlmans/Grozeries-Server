@@ -8,7 +8,8 @@ The Development Team "Grozeries" of Class 25 welcomes you: may your coding adven
 
 This is the server side of the Grozeries platform,
 it is made in Sequelize and Express.
-It contains multiple routes and models and uses Sequelize Migrations.
+It contains multiple routes and models orders, orderlines, product, shops and users.
+The app also uses Sequelize migration so when you change up the models you dont have to delete your whole database.
 
 ## Authors
 
